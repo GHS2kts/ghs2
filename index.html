@@ -11,13 +11,25 @@
     <h1>📚 GHS Sector No. 2, KTS Haripur</h1>
     <h2>School Timetable Dashboard</h2>
     <div id="datetime"></div>
+    <a href="index.html" class="home-link">🏠 Home</a>
   </header>
 
   <section id="current-period">
-    <h3>🔔 Current Period</h3>
-    <p>Class: <span id="class-name">10th Blue</span></p>
-    <p>Period #: <span id="period-number">4</span></p>
-    <p>Teacher: <span id="teacher-name">Mr. Irfan</span></p>
+    <h3>🔔 Current Period Overview</h3>
+    <table id="live-period-table">
+      <thead>
+        <tr>
+          <th>Class</th>
+          <th>Section</th>
+          <th>Period</th>
+          <th>Teacher</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Dynamic rows injected here -->
+      </tbody>
+    </table>
   </section>
 
   <nav>
@@ -25,6 +37,7 @@
     <a href="pages/attendance.html">🧮 Attendance</a>
     <a href="pages/teacher-portal.html">👨‍🏫 Teacher Portal</a>
     <a href="pages/admin.html">🛠️ Admin Panel</a>
+    <a href="pages/session-manager.html">📂 Session Manager</a>
   </nav>
 
   <footer>
