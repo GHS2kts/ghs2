@@ -9,65 +9,76 @@
 <body>
   <header>
     <h1>🛠️ Admin Panel</h1>
-    <p>GHS Sector No. 2, KTS Haripur</p>
+    <a href="../index.html" class="home-link">🏠 Home</a>
   </header>
 
-  <section>
-    <h2>Assign Vacant Period</h2>
-    <form id="vacant-form">
-      <label>Date:
-        <input type="date" id="vacant-date" />
+  <section id="login-section">
+    <h2>Admin Login</h2>
+    <form id="admin-login">
+      <label>Username:
+        <input type="text" id="admin-username" />
       </label>
-      <label>Class:
-        <select id="vacant-class">
-          <option>6th White</option>
-          <option>6th Blue</option>
-          <option>7th White</option>
-          <option>7th Blue</option>
-          <option>8th White</option>
-          <option>8th Blue</option>
-          <option>9th White</option>
-          <option>9th Blue</option>
-          <option>10th White</option>
-          <option>10th Blue</option>
-        </select>
+      <label>Password:
+        <input type="password" id="admin-password" />
       </label>
-      <label>Period #:
-        <input type="number" id="vacant-period" min="1" max="8" />
-      </label>
-      <label>Assigned Teacher:
-        <input type="text" id="assigned-teacher" />
-      </label>
-      <label>Original Teacher (Absent):
-        <input type="text" id="absent-teacher" />
-      </label>
-      <button type="submit">Assign</button>
+      <button type="submit">Login</button>
     </form>
   </section>
 
-  <section>
-    <h2>📋 Vacant Period Log</h2>
-    <table id="vacant-log">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Class</th>
-          <th>Period</th>
-          <th>Assigned</th>
-          <th>Absent</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Log entries will appear here -->
-      </tbody>
-    </table>
-  </section>
+  <section id="admin-dashboard" style="display:none;">
+    <h2>Welcome, Admin</h2>
 
-  <section>
-    <h2>📊 Teacher Coverage Summary</h2>
-    <ul id="teacher-summary">
-      <!-- Summary will be injected here -->
-    </ul>
+    <div>
+      <h3>👨‍🏫 Manage Teachers</h3>
+      <input type="text" id="new-teacher" placeholder="Enter teacher name" />
+      <button onclick="addTeacher()">Add Teacher</button>
+      <ul id="teacher-list"></ul>
+    </div>
+
+    <div>
+      <h3>🏫 Manage Classes</h3>
+      <input type="text" id="new-class" placeholder="Enter class name" />
+      <button onclick="addClass()">Add Class</button>
+      <ul id="class-list"></ul>
+    </div>
+
+    <div>
+      <h3>📅 Edit Timetable</h3>
+      <p>Use Timetable Manager module</p>
+    </div>
+
+    <div>
+      <h3>🧮 Edit Attendance</h3>
+      <p>Use Attendance Dashboard module</p>
+    </div>
+
+    <div>
+      <h3>📋 Manage Vacant Periods</h3>
+      <form id="vacant-form">
+        <label>Date:
+          <input type="date" id="vacant-date" />
+        </label>
+        <label>Class:
+          <input type="text" id="vacant-class" />
+        </label>
+        <label>Period #:
+          <input type="number" id="vacant-period" min="1" max="8" />
+        </label>
+        <label>Assigned Teacher:
+          <input type="text" id="assigned-teacher" />
+        </label>
+        <label>Original Teacher:
+          <input type="text" id="absent-teacher" />
+        </label>
+        <button type="submit">Assign</button>
+      </form>
+      <table id="vacant-log">
+        <thead>
+          <tr><th>Date</th><th>Class</th><th>Period</th><th>Assigned</th><th>Absent</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
   </section>
 
   <script src="../assets/js/admin.js"></script>
