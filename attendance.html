@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Attendance Dashboard</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header>
+    <h1>🧮 Attendance Tracker</h1>
+    <p>GHS Sector No. 2, KTS Haripur</p>
+  </header>
+
+  <section>
+    <h2>Enter Daily Attendance</h2>
+    <form id="attendance-form">
+      <label>Class:
+        <select id="class-select">
+          <option>6th White</option>
+          <option>6th Blue</option>
+          <option>7th White</option>
+          <option>7th Blue</option>
+          <option>8th White</option>
+          <option>8th Blue</option>
+          <option>9th White</option>
+          <option>9th Blue</option>
+          <option>10th White</option>
+          <option>10th Blue</option>
+        </select>
+      </label>
+      <label>Present:
+        <input type="number" id="present-count" min="0" />
+      </label>
+      <label>Absent:
+        <input type="number" id="absent-count" min="0" />
+      </label>
+      <label>Sick Leave:
+        <input type="number" id="sick-count" min="0" />
+      </label>
+      <button type="submit">Submit</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>📊 School Attendance Overview</h2>
+    <canvas id="attendance-chart" width="400" height="200"></canvas>
+  </section>
+
+  <script src="../assets/js/attendance.js"></script>
+</body>
+</html>
