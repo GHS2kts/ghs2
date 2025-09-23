@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session Manager</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>📂 Academic Session Manager</h1>
+    <p>GHS Sector No. 2, KTS Haripur</p>
+  </header>
+
+  <section>
+    <h2>Create New Session</h2>
+    <form id="session-form">
+      <label>Session Name:
+        <input type="text" id="session-name" placeholder="e.g. 2025–2026" />
+      </label>
+      <button type="submit">Create Session</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>📋 Existing Sessions</h2>
+    <ul id="session-list">
+      <!-- Sessions will be listed here -->
+    </ul>
+  </section>
+
+  <section>
+    <h2>🗃️ Archive Current Data</h2>
+    <button id="archive-button">Archive Current Timetable & Attendance</button>
+    <p id="archive-status"></p>
+  </section>
+
+  <script src="../assets/js/session-manager.js"></script>
+</body>
+</html>
