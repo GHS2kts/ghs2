@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>🛠️ Admin Panel</h1>
+    <p>GHS Sector No. 2, KTS Haripur</p>
+  </header>
+
+  <section>
+    <h2>Assign Vacant Period</h2>
+    <form id="vacant-form">
+      <label>Date:
+        <input type="date" id="vacant-date" />
+      </label>
+      <label>Class:
+        <select id="vacant-class">
+          <option>6th White</option>
+          <option>6th Blue</option>
+          <option>7th White</option>
+          <option>7th Blue</option>
+          <option>8th White</option>
+          <option>8th Blue</option>
+          <option>9th White</option>
+          <option>9th Blue</option>
+          <option>10th White</option>
+          <option>10th Blue</option>
+        </select>
+      </label>
+      <label>Period #:
+        <input type="number" id="vacant-period" min="1" max="8" />
+      </label>
+      <label>Assigned Teacher:
+        <input type="text" id="assigned-teacher" />
+      </label>
+      <label>Original Teacher (Absent):
+        <input type="text" id="absent-teacher" />
+      </label>
+      <button type="submit">Assign</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>📋 Vacant Period Log</h2>
+    <table id="vacant-log">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Class</th>
+          <th>Period</th>
+          <th>Assigned</th>
+          <th>Absent</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Log entries will appear here -->
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>📊 Teacher Coverage Summary</h2>
+    <ul id="teacher-summary">
+      <!-- Summary will be injected here -->
+    </ul>
+  </section>
+
+  <script src="../assets/js/admin.js"></script>
+</body>
+</html>
