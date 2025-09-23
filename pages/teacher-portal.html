@@ -9,71 +9,49 @@
 <body>
   <header>
     <h1>👨‍🏫 Teacher Portal</h1>
-    <p>Welcome, Teacher</p>
+    <a href="../index.html" class="home-link">🏠 Home</a>
   </header>
 
   <section>
-    <h2>📅 My Timetable</h2>
-    <table id="teacher-timetable">
-      <thead>
-        <tr>
-          <th>Day</th>
-          <th>Period</th>
-          <th>Class</th>
-          <th>Subject</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Timetable rows injected here -->
-      </tbody>
-    </table>
+    <h2>Select Your Name</h2>
+    <select id="teacher-select">
+      <option disabled selected>Select Teacher</option>
+      <option>Miss Ayesha</option>
+      <option>Mr. Irfan</option>
+      <option>Mr. Asif</option>
+      <option>Miss Sana</option>
+      <option>Mr. Bilal</option>
+      <option>Miss Rabia</option>
+    </select>
   </section>
 
-  <section>
-    <h2>🧮 Submit Attendance</h2>
-    <form id="teacher-attendance-form">
-      <label>Class:
-        <select id="class-select">
-          <option>6th White</option>
-          <option>6th Blue</option>
-          <option>7th White</option>
-          <option>7th Blue</option>
-          <option>8th White</option>
-          <option>8th Blue</option>
-          <option>9th White</option>
-          <option>9th Blue</option>
-          <option>10th White</option>
-          <option>10th Blue</option>
-        </select>
-      </label>
-      <label>Present:
-        <input type="number" id="present-count" min="0" />
-      </label>
-      <label>Absent:
-        <input type="number" id="absent-count" min="0" />
-      </label>
-      <label>Sick Leave:
-        <input type="number" id="sick-count" min="0" />
-      </label>
-      <button type="submit">Submit</button>
-    </form>
-  </section>
+  <section id="dashboard" style="display:none;">
+    <h2>Welcome, <span id="teacher-name"></span></h2>
 
-  <section>
-    <h2>📋 Vacant Period Assignments</h2>
-    <table id="vacant-periods">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Class</th>
-          <th>Period</th>
-          <th>Reason</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Assigned vacant periods will appear here -->
-      </tbody>
-    </table>
+    <div>
+      <h3>📅 My Timetable</h3>
+      <table id="teacher-timetable">
+        <thead>
+          <tr><th>Day</th><th>Period</th><th>Class</th><th>Subject</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div>
+      <h3>🔔 Upcoming Period</h3>
+      <p id="upcoming-period">Loading...</p>
+    </div>
+
+    <div>
+      <h3>📋 Assigned Vacant Periods</h3>
+      <table id="vacant-periods">
+        <thead>
+          <tr><th>Date</th><th>Class</th><th>Period</th><th>Reason</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
   </section>
 
   <script src="../assets/js/teacher-portal.js"></script>
