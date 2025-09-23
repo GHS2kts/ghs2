@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Class Timetable</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>📅 Timetable Management</h1>
+    <p>GHS Sector No. 2, KTS Haripur</p>
+  </header>
+
+  <section>
+    <h2>Enter Timetable</h2>
+    <form id="timetable-form">
+      <label>Class:
+        <select id="class-select">
+          <option>6th White</option>
+          <option>6th Blue</option>
+          <option>7th White</option>
+          <option>7th Blue</option>
+          <option>8th White</option>
+          <option>8th Blue</option>
+          <option>9th White</option>
+          <option>9th Blue</option>
+          <option>10th White</option>
+          <option>10th Blue</option>
+        </select>
+      </label>
+      <label>Day:
+        <select id="day-select">
+          <option>Monday</option>
+          <option>Tuesday</option>
+          <option>Wednesday</option>
+          <option>Thursday</option>
+          <option>Friday</option>
+        </select>
+      </label>
+      <label>Period #:
+        <input type="number" id="period-number" min="1" max="8" />
+      </label>
+      <label>Subject:
+        <input type="text" id="subject" />
+      </label>
+      <label>Teacher Name:
+        <input type="text" id="teacher-name" />
+      </label>
+      <button type="submit">Add Entry</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>📋 Timetable Display</h2>
+    <table id="timetable-table">
+      <thead>
+        <tr>
+          <th>Class</th>
+          <th>Day</th>
+          <th>Period</th>
+          <th>Subject</th>
+          <th>Teacher</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Entries will be injected here -->
+      </tbody>
+    </table>
+  </section>
+
+  <script src="../assets/js/timetable.js"></script>
+</body>
+</html>
