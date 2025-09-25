@@ -3,47 +3,39 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GHS Sector No. 2, KTS Haripur</title>
+  <title>GHS School Dashboard</title>
   <link rel="stylesheet" href="assets/css/style.css" />
+  <script type="module" src="assets/js/firebase.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <header>
-    <h1>📚 GHS Sector No. 2, KTS Haripur</h1>
-    <h2>School Timetable Dashboard</h2>
-    <div id="datetime"></div>
-    <a href="index.html" class="home-link">🏠 Home</a>
+    <h1>🏫 GHS Sector No. 2, KTS Haripur</h1>
+    <nav>
+      <a href="pages/timetable.html">📅 Timetable</a>
+      <a href="pages/attendance.html">🧮 Attendance</a>
+      <a href="pages/teacher-portal.html">👨‍🏫 Teacher Portal</a>
+      <a href="pages/admin.html">🛠️ Admin Panel</a>
+      <a href="pages/session-manager.html">📂 Session Manager</a>
+    </nav>
   </header>
 
-  <section id="current-period">
-    <h3>🔔 Current Period Overview</h3>
-    <table id="live-period-table">
+  <section>
+    <h2>📡 Live Period Tracker</h2>
+    <table>
       <thead>
-        <tr>
-          <th>Class</th>
-          <th>Section</th>
-          <th>Period</th>
-          <th>Teacher</th>
-          <th>Status</th>
-        </tr>
+        <tr><th>Class</th><th>Period</th><th>Subject</th><th>Teacher</th></tr>
       </thead>
-      <tbody>
-        <!-- Dynamic rows injected here -->
+      <tbody id="live-grid">
+        <!-- Filled by main.js -->
       </tbody>
     </table>
   </section>
 
-  <nav>
-    <a href="pages/timetable.html">📅 Timetable</a>
-    <a href="pages/attendance.html">🧮 Attendance</a>
-    <a href="pages/teacher-portal.html">👨‍🏫 Teacher Portal</a>
-    <a href="pages/admin.html">🛠️ Admin Panel</a>
-    <a href="pages/session-manager.html">📂 Session Manager</a>
-  </nav>
-
   <footer>
-    <p>&copy; 2025 GHS Sector No. 2, KTS Haripur</p>
+    <p>Made by Khurram Irshad Khan · Haripur · 2025</p>
   </footer>
 
-  <script src="assets/js/main.js"></script>
+  <script type="module" src="assets/js/main.js"></script>
 </body>
 </html>
