@@ -6,10 +6,9 @@
   <title>GHS School Dashboard</title>
   <link rel="stylesheet" href="assets/css/style.css" />
   <script type="module" src="assets/js/firebase.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <header>
+  <header style="position:relative">
     <h1>🏫 GHS Sector No. 2, KTS Haripur</h1>
     <nav>
       <a href="pages/timetable.html">📅 Timetable</a>
@@ -18,6 +17,9 @@
       <a href="pages/admin.html">🛠️ Admin Panel</a>
       <a href="pages/session-manager.html">📂 Session Manager</a>
     </nav>
+    <div id="session-indicator" style="position:absolute; top:10px; right:10px; font-size:0.9em; color:#555;">
+      📘 Session: <span id="current-session">Loading…</span>
+    </div>
   </header>
 
   <section>
@@ -26,9 +28,7 @@
       <thead>
         <tr><th>Class</th><th>Period</th><th>Subject</th><th>Teacher</th></tr>
       </thead>
-      <tbody id="live-grid">
-        <!-- Filled by main.js -->
-      </tbody>
+      <tbody id="live-grid"></tbody>
     </table>
   </section>
 
