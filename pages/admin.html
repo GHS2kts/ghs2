@@ -4,18 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Panel · GHS Dashboard</title>
-  <link rel="stylesheet" href="../assets/css/style.css" />
-  <script type="module" src="../assets/js/firebase.js"></script>
+  <link rel="stylesheet" href="/assets/css/style.css" />
+  <script type="module" src="/assets/js/firebase.js"></script>
 </head>
 <body>
   <header>
     <h1>🛠️ Admin Panel</h1>
     <nav>
-      <a href="../index.html">🏠 Home</a>
-      <a href="timetable.html">📅 Timetable</a>
-      <a href="attendance.html">🧮 Attendance</a>
-      <a href="teacher-portal.html">👨‍🏫 Teacher Portal</a>
-      <a href="session-manager.html">📂 Session Manager</a>
+      <a href="/index.html">🏠 Home</a>
+      <a href="/pages/timetable.html">📅 Timetable</a>
+      <a href="/pages/attendance.html">🧮 Attendance</a>
+      <a href="/pages/teacher-portal.html">👨‍🏫 Teacher Portal</a>
+      <a href="/pages/session-manager.html">📂 Session Manager</a>
     </nav>
   </header>
 
@@ -29,24 +29,37 @@
   </section>
 
   <section id="admin-dashboard" style="display:none">
-    <h2>⚙️ Configuration</h2>
+    <h2>⚙️ Admin Control Center</h2>
 
-    <div>
-      <h3>👨‍🏫 Teachers</h3>
-      <input id="add-teacher" placeholder="Add teacher and press Enter" />
+    <div class="admin-tabs">
+      <button onclick="showTab('teachers')">👨‍🏫 Teachers</button>
+      <button onclick="showTab('classes')">🏫 Classes</button>
+      <button onclick="showTab('timetable')">📅 Timetable</button>
+    </div>
+
+    <div id="tab-teachers" class="admin-tab">
+      <h3>👨‍🏫 Manage Teachers</h3>
+      <textarea id="bulk-teachers" placeholder="Paste teacher names, one per line"></textarea>
+      <button onclick="addTeachers()">Add Teachers</button>
       <ul id="teacher-list"></ul>
     </div>
 
-    <div>
-      <h3>🏫 Classes</h3>
-      <input id="add-class" placeholder="Add class and press Enter" />
+    <div id="tab-classes" class="admin-tab" style="display:none">
+      <h3>🏫 Add Class</h3>
+      <input id="class-name" placeholder="Class name (e.g. 6th)" />
+      <select id="section-name">
+        <option>White</option>
+        <option>Blue</option>
+        <option>Green</option>
+        <option>Brown</option>
+      </select>
+      <button onclick="addClass()">Add Class</button>
       <ul id="class-list"></ul>
     </div>
 
-    <div>
-      <h3>📚 Sections</h3>
-      <input id="add-section" placeholder="Add section and press Enter" />
-      <ul id="section-list"></ul>
+    <div id="tab-timetable" class="admin-tab" style="display:none">
+      <h3>📅 Timetable Editor</h3>
+      <p>Coming soon: grid-based input for each class and day</p>
     </div>
   </section>
 
@@ -54,6 +67,6 @@
     <p>Made by Khurram Irshad Khan · Haripur · 2025</p>
   </footer>
 
-  <script type="module" src="../assets/js/admin.js"></script>
+  <script type="module" src="/assets/js/admin.js"></script>
 </body>
 </html>
