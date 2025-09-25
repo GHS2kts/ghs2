@@ -1,69 +1,59 @@
-import {
-  doc,
-  getDoc,
-  setDoc
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel · GHS Dashboard</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <script type="module" src="../assets/js/firebase.js"></script>
+</head>
+<body>
+  <header>
+    <h1>🛠️ Admin Panel</h1>
+    <nav>
+      <a href="../index.html">🏠 Home</a>
+      <a href="timetable.html">📅 Timetable</a>
+      <a href="attendance.html">🧮 Attendance</a>
+      <a href="teacher-portal.html">👨‍🏫 Teacher Portal</a>
+      <a href="session-manager.html">📂 Session Manager</a>
+    </nav>
+  </header>
 
-const loginForm = document.getElementById('admin-login');
-const dashboard = document.getElementById('admin-dashboard');
-const loginSection = document.getElementById('login-section');
+  <section id="login-section">
+    <h2>🔐 Admin Login</h2>
+    <form id="admin-login">
+      <input type="text" id="admin-username" placeholder="Username" required />
+      <input type="password" id="admin-password" placeholder="Password" required />
+      <button type="submit">Login</button>
+    </form>
+  </section>
 
-// 🔐 Admin Login
-loginForm.addEventListener('submit', async function (e) {
-  e.preventDefault();
-  const username = document.getElementById('admin-username').value;
-  const password = document.getElementById('admin-password').value;
+  <section id="admin-dashboard" style="display:none">
+    <h2>⚙️ Configuration</h2>
 
-  const ref = doc(window.db, "config", "admin");
-  const snap = await getDoc(ref);
-  const data = snap.exists() ? snap.data() : { password: "kikukiku" };
+    <div>
+      <h3>👨‍🏫 Teachers</h3>
+      <input id="add-teacher" placeholder="Add teacher and press Enter" />
+      <ul id="teacher-list"></ul>
+    </div>
 
-  if (username === "Admin" && password === data.password) {
-    loginSection.style.display = 'none';
-    dashboard.style.display = 'block';
-    loadList('teachers', 'teacher-list');
-    loadList('classes', 'class-list');
-    loadList('sections', 'section-list');
-  } else {
-    alert("Invalid credentials");
-  }
-});
+    <div>
+      <h3>🏫 Classes</h3>
+      <input id="add-class" placeholder="Add class and press Enter" />
+      <ul id="class-list"></ul>
+    </div>
 
-// 🔧 Add & Load Lists
-async function updateList(docId, fieldId, listId) {
-  const input = document.getElementById(fieldId);
-  const value = input.value.trim();
-  if (!value) return;
+    <div>
+      <h3>📚 Sections</h3>
+      <input id="add-section" placeholder="Add section and press Enter" />
+      <ul id="section-list"></ul>
+    </div>
+  </section>
 
-  const ref = doc(window.db, "config", docId);
-  const snap = await getDoc(ref);
-  const list = snap.exists() ? snap.data().list : [];
-  list.push(value);
-  await setDoc(ref, { list }, { merge: true });
-  input.value = '';
-  loadList(docId, listId);
-}
+  <footer>
+    <p>Made by Khurram Irshad Khan · Haripur · 2025</p>
+  </footer>
 
-async function loadList(docId, listId) {
-  const ref = doc(window.db, "config", docId);
-  const snap = await getDoc(ref);
-  const list = snap.exists() ? snap.data().list : [];
-  const container = document.getElementById(listId);
-  container.innerHTML = '';
-  list.forEach(item => {
-    const li = document.createElement('li');
-    li.textContent = item;
-    container.appendChild(li);
-  });
-}
-
-// 🔗 Bind Inputs
-document.getElementById('add-teacher').addEventListener('keypress', e => {
-  if (e.key === 'Enter') updateList('teachers', 'add-teacher', 'teacher-list');
-});
-document.getElementById('add-class').addEventListener('keypress', e => {
-  if (e.key === 'Enter') updateList('classes', 'add-class', 'class-list');
-});
-document.getElementById('add-section').addEventListener('keypress', e => {
-  if (e.key === 'Enter') updateList('sections', 'add-section', 'section-list');
-});
+  <script type="module" src="../assets/js/admin.js"></script>
+</body>
+</html>
