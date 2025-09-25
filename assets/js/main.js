@@ -1,8 +1,20 @@
 import {
+  doc,
+  getDoc,
   getDocs,
   collection
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+// 📘 Load current session
+async function loadCurrentSession() {
+  const ref = doc(window.db, "sessions", "current");
+  const snap = await getDoc(ref);
+  const name = snap.exists() ? snap.data().name : "Not Set";
+  document.getElementById('current-session').textContent = name;
+}
+loadCurrentSession();
+
+// 📡 Live period tracker
 const grid = document.getElementById('live-grid');
 const now = new Date();
 const hour = now.getHours();
