@@ -1,97 +1,57 @@
 import {
   doc,
-  getDoc,
   setDoc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-console.log("✅ Admin panel script loaded");
-
-const loginForm = document.getElementById('admin-login');
-const dashboard = document.getElementById('admin-dashboard');
-const loginSection = document.getElementById('login-section');
-
-// 🔐 Admin Login
-loginForm.addEventListener('submit', async function (e) {
-  e.preventDefault();
-  const username = document.getElementById('admin-username').value.trim().toLowerCase();
-  const password = document.getElementById('admin-password').value;
-
-  try {
-    const ref = doc(window.db, "config", "admin");
-    const snap = await getDoc(ref);
-    const data = snap.exists() ? snap.data() : {};
-
-    if (username === "admin" && password === data.password) {
-      loginSection.style.display = 'none';
-      dashboard.style.display = 'block';
-      showTab('teachers');
-      loadList('teachers', 'teacher-list');
-      loadList('classes', 'class-list');
-    } else {
-      alert("❌ Invalid credentials");
-    }
-  } catch (err) {
-    console.error("🔥 Login error:", err);
-    alert("Error connecting to Firebase");
-  }
+// 🔐 Save Session
+document.getElementById("save-session").addEventListener("click", async () => {
+  const name = document.getElementById("session-name").value.trim();
+  if (!name) return alert("Enter session name");
+  await setDoc(doc(window.db, "sessions", "current"), { name });
+  alert("Session saved!");
 });
 
-// 🧭 Tab switching
-function showTab(tab) {
-  document.querySelectorAll('.admin-tab').forEach(div => div.style.display = 'none');
-  document.getElementById(`tab-${tab}`).style.display = 'block';
-}
+// 👨‍🏫 Save Teachers
+document.getElementById("save-teachers").addEventListener("click", async () => {
+  const raw = document.getElementById("teacher-list").value.trim();
+  const list = raw.split("\n").map(x => x.trim()).filter(x => x);
+  await setDoc(doc(window.db, "config", "teachers"), { list });
+  alert("Teachers saved!");
+});
 
-// 👨‍🏫 Add Teachers in Bulk
-async function addTeachers() {
-  const input = document.getElementById('bulk-teachers').value;
-  const names = input.split('\n').map(n => n.trim()).filter(n => n);
-  if (!names.length) return;
+// 🏫 Save Classes
+document.getElementById("save-classes").addEventListener("click", async () => {
+  const raw = document.getElementById("class-list").value.trim();
+  const list = raw.split("\n").map(x => x.trim()).filter(x => x);
+  await setDoc(doc(window.db, "config", "classes"), { list });
+  alert("Classes saved!");
+});
 
-  const ref = doc(window.db, "config", "teachers");
-  const snap = await getDoc(ref);
-  const existing = snap.exists() ? snap.data().list : [];
-  const updated = [...new Set([...existing, ...names])];
-  await setDoc(ref, { list: updated });
-  document.getElementById('bulk-teachers').value = '';
-  loadList('teachers', 'teacher-list');
-}
+// 🏅 Save Student of the Month
+document.getElementById("save-student").addEventListener("click", async () => {
+  const name = document.getElementById("student-name").value.trim();
+  const photo = document.getElementById("student-photo").value.trim();
+  const reason = document.getElementById("student-reason").value.trim();
+  if (!name || !photo) return alert("Enter name and photo URL");
+  await setDoc(doc(window.db, "config", "studentOfMonth"), { name, photo, reason });
+  alert("Student updated!");
+});
 
-// 🏫 Add Class with Section
-async function addClass() {
-  const className = document.getElementById('class-name').value.trim();
-  const section = document.getElementById('section-name').value;
-  if (!className) return;
+// 📰 Save News
+document.getElementById("save-news").addEventListener("click", async () => {
+  const raw = document.getElementById("news-items").value.trim();
+  const items = raw.split("\n").filter(line => line.trim());
+  await setDoc(doc(window.db, "config", "news"), { items });
+  alert("News updated!");
+});
 
-  const fullName = `${className} ${section}`;
-  const ref = doc(window.db, "config", "classes");
-  const snap = await getDoc(ref);
-  const existing = snap.exists() ? snap.data().list : [];
-  const updated = [...new Set([...existing, fullName])];
-  await setDoc(ref, { list: updated });
-  document.getElementById('class-name').value = '';
-  loadList('classes', 'class-list');
-}
-
-// 🗑️ Load and show list with delete
-async function loadList(docId, listId) {
-  const ref = doc(window.db, "config", docId);
-  const snap = await getDoc(ref);
-  const list = snap.exists() ? snap.data().list : [];
-  const container = document.getElementById(listId);
-  container.innerHTML = '';
-  list.forEach((item, i) => {
-    const li = document.createElement('li');
-    li.textContent = item;
-    const btn = document.createElement('button');
-    btn.textContent = '🗑️';
-    btn.style.marginLeft = '10px';
-    btn.onclick = async () => {
-      const updated = list.filter((_, idx) => idx !== i);
-      await setDoc(ref, { list: updated });
-      loadList(docId, listId);
-    };
-    li.appendChild(btn);
-    container.appendChild(li);
-  });
-}
+// 📂 Save Vacant Periods
+document.getElementById("save-vacant").addEventListener("click", async () => {
+  const date = document.getElementById("vacant-date").value;
+  const className = document.getElementById("vacant-class").value.trim();
+  const raw = document.getElementById("vacant-periods").value.trim();
+  const periods = raw.split(",").map(x => parseInt(x)).filter(x => !isNaN(x));
+  if (!date || !className || periods.length === 0) return alert("Fill all fields");
+  await setDoc(doc(window.db, `vacantPeriods/${date}`, className), { periods });
+  alert("Vacant periods saved!");
+});
