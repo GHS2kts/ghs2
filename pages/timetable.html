@@ -3,57 +3,45 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Timetable Manager</title>
+  <title>Class Timetable Editor · GHS Dashboard</title>
   <link rel="stylesheet" href="../assets/css/style.css" />
+  <script type="module" src="../assets/js/firebase.js"></script>
 </head>
 <body>
   <header>
-    <h1>📅 Timetable Manager</h1>
-    <a href="../index.html" class="home-link">🏠 Home</a>
+    <h1>📅 Class Timetable Editor</h1>
+    <nav>
+      <a href="../index.html">🏠 Home</a>
+      <a href="admin.html">🛠️ Admin</a>
+    </nav>
   </header>
 
-  <section>
-    <h2>Select Class</h2>
-    <select id="class-selector">
-      <option>6th White</option>
-      <option>6th Blue</option>
-      <option>7th White</option>
-      <option>7th Blue</option>
-      <option>8th White</option>
-      <option>8th Blue</option>
-      <option>9th White</option>
-      <option>9th Blue</option>
-      <option>10th White</option>
-      <option>10th Blue</option>
-    </select>
-  </section>
+  <main class="p-4 space-y-6">
+    <section>
+      <label for="class-select">🏫 Select Class:</label>
+      <select id="class-select"></select>
+    </section>
 
-  <section>
-    <h2>Fill Weekly Timetable</h2>
-    <table id="timetable-grid">
-      <thead>
-        <tr>
-          <th>Day / Period</th>
-          <th>1</th><th>2</th><th>3</th><th>4</th>
-          <th>5</th><th>6</th><th>7</th><th>8</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Rows for each day will be injected here -->
-      </tbody>
-    </table>
+    <section>
+      <label for="day-select">📆 Select Day:</label>
+      <select id="day-select">
+        <option>Monday</option>
+        <option>Tuesday</option>
+        <option>Wednesday</option>
+        <option>Thursday</option>
+        <option>Friday</option>
+      </select>
+    </section>
+
+    <section id="periods-container" class="space-y-2"></section>
+
     <button id="save-timetable">💾 Save Timetable</button>
-  </section>
-<script type="module" src="../assets/js/firebase.js"></script>
-<script type="module" src="../assets/js/admin.js"></script>
+  </main>
 
-  <section>
-    <h2>📋 View Timetable</h2>
-    <button id="view-by-class">View by Class</button>
-    <button id="view-by-teacher">View by Teacher</button>
-    <div id="timetable-display"></div>
-  </section>
+  <footer>
+    Made by Khurram Irshad Khan · Haripur · 2025
+  </footer>
 
-  <script src="../assets/js/timetable.js"></script>
+  <script type="module" src="../assets/js/timetable.js"></script>
 </body>
 </html>
