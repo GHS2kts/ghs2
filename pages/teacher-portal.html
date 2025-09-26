@@ -3,59 +3,46 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Teacher Portal</title>
+  <title>Teacher Portal · GHS Dashboard</title>
   <link rel="stylesheet" href="../assets/css/style.css" />
+  <script type="module" src="../assets/js/firebase.js"></script>
 </head>
 <body>
   <header>
-    <h1>👨‍🏫 Teacher Portal</h1>
-    <a href="../index.html" class="home-link">🏠 Home</a>
+    <h1>📋 Teacher Attendance Portal</h1>
+    <nav>
+      <a href="../index.html">🏠 Home</a>
+      <a href="admin.html">🛠️ Admin</a>
+    </nav>
   </header>
 
-  <section>
-    <h2>Select Your Name</h2>
-    <select id="teacher-select">
-      <option disabled selected>Select Teacher</option>
-      <option>Miss Ayesha</option>
-      <option>Mr. Irfan</option>
-      <option>Mr. Asif</option>
-      <option>Miss Sana</option>
-      <option>Mr. Bilal</option>
-      <option>Miss Rabia</option>
-    </select>
-  </section>
+  <main class="p-4 space-y-6">
+    <section>
+      <label for="class-select">🏫 Select Class:</label>
+      <select id="class-select"></select>
+    </section>
 
-  <section id="dashboard" style="display:none;">
-    <h2>Welcome, <span id="teacher-name"></span></h2>
+    <section>
+      <label for="attendance-date">📅 Date:</label>
+      <input type="date" id="attendance-date" />
+    </section>
 
-    <div>
-      <h3>📅 My Timetable</h3>
-      <table id="teacher-timetable">
-        <thead>
-          <tr><th>Day</th><th>Period</th><th>Class</th><th>Subject</th></tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
+    <section>
+      <label>👨‍🏫 Attendance Counts:</label>
+      <input type="number" id="present" placeholder="Present" />
+      <input type="number" id="absent" placeholder="Absent" />
+      <input type="number" id="leave" placeholder="Leave" />
+      <input type="number" id="sick" placeholder="Sick" />
+      <input type="number" id="other" placeholder="Other" />
+    </section>
 
-    <div>
-      <h3>🔔 Upcoming Period</h3>
-      <p id="upcoming-period">Loading...</p>
-    </div>
+    <button id="submit-attendance">Submit Attendance</button>
+  </main>
 
-    <div>
-      <h3>📋 Assigned Vacant Periods</h3>
-      <table id="vacant-periods">
-        <thead>
-          <tr><th>Date</th><th>Class</th><th>Period</th><th>Reason</th></tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-  </section>
-<script type="module" src="../assets/js/firebase.js"></script>
-<script type="module" src="../assets/js/admin.js"></script>
+  <footer>
+    Made by Khurram Irshad Khan · Haripur · 2025
+  </footer>
 
-  <script src="../assets/js/teacher-portal.js"></script>
+  <script type="module" src="../assets/js/teacher-portal.js"></script>
 </body>
 </html>
