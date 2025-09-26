@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teacher Timetable · GHS Dashboard</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <script type="module" src="../assets/js/firebase.js"></script>
+</head>
+<body>
+  <header>
+    <h1>📘 Teacher Timetable Viewer</h1>
+    <nav>
+      <a href="../index.html">🏠 Home</a>
+      <a href="admin.html">🛠️ Admin</a>
+    </nav>
+  </header>
+
+  <main class="p-4 space-y-6">
+    <section>
+      <label for="teacher-select">👨‍🏫 Select Teacher:</label>
+      <select id="teacher-select"></select>
+      <button id="load-timetable">Load Timetable</button>
+      <button onclick="window.print()">🖨️ Print</button>
+    </section>
+
+    <section id="timetable-grid" class="overflow-auto print:p-0 print:m-0"></section>
+  </main>
+
+  <footer>
+    Made by Khurram Irshad Khan · Haripur · 2025
+  </footer>
+
+  <script type="module" src="../assets/js/teacher-timetable.js"></script>
+</body>
+</html>
