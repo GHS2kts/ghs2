@@ -1,81 +1,32 @@
 import {
   doc,
-  getDoc,
-  getDocs,
-  collection
+  setDoc,
+  getDoc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-const teacherSelect = document.getElementById('teacher-select');
-const dashboard = document.getElementById('dashboard');
-const teacherNameSpan = document.getElementById('teacher-name');
-const timetableBody = document.querySelector('#teacher-timetable tbody');
-const vacantBody = document.querySelector('#vacant-periods tbody');
-const upcomingPeriod = document.getElementById('upcoming-period');
-
-// 🔄 Load teacher list from Firebase
-async function loadTeachers() {
-  const ref = doc(window.db, "config", "teachers");
-  const snap = await getDoc(ref);
+// Load class list
+const classSelect = document.getElementById("class-select");
+async function loadClasses() {
+  const snap = await getDoc(doc(window.db, "config", "classes"));
   const list = snap.exists() ? snap.data().list : [];
-  list.forEach(name => {
-    const option = document.createElement('option');
-    option.textContent = name;
-    teacherSelect.appendChild(option);
-  });
+  classSelect.innerHTML = list.map(name => `<option value="${name}">${name}</option>`).join("");
 }
-loadTeachers();
 
-// 🧠 On teacher selection
-teacherSelect.addEventListener('change', async () => {
-  const selected = teacherSelect.value;
-  teacherNameSpan.textContent = selected;
-  dashboard.style.display = 'block';
+// Submit attendance
+document.getElementById("submit-attendance").addEventListener("click", async () => {
+  const className = classSelect.value;
+  const date = document.getElementById("attendance-date").value;
+  const present = parseInt(document.getElementById("present").value) || 0;
+  const absent = parseInt(document.getElementById("absent").value) || 0;
+  const leave = parseInt(document.getElementById("leave").value) || 0;
+  const sick = parseInt(document.getElementById("sick").value) || 0;
+  const other = parseInt(document.getElementById("other").value) || 0;
 
-  // 🗓️ Load all timetables
-  const timetableSnap = await getDocs(collection(window.db, "timetables"));
-  const teacherPeriods = [];
-
-  timetableSnap.forEach(docSnap => {
-    const className = docSnap.id;
-    const data = docSnap.data();
-    for (const day in data.days) {
-      data.days[day].forEach((p, i) => {
-        if (p.teacher === selected) {
-          teacherPeriods.push({ day, period: i + 1, class: className, subject: p.subject });
-        }
-      });
-    }
-  });
-
-  // Render timetable
-  timetableBody.innerHTML = '';
-  teacherPeriods.forEach(entry => {
-    const row = document.createElement('tr');
-    row.innerHTML = `<td>${entry.day}</td><td>${entry.period}</td><td>${entry.class}</td><td>${entry.subject}</td>`;
-    timetableBody.appendChild(row);
-  });
-
-  // 🔔 Upcoming period
-  const now = new Date();
-  const hour = now.getHours();
-  const period = Math.floor((hour - 8) / 1); // Assuming 8 AM start
-  const today = now.toLocaleDateString('en-PK', { weekday: 'long' });
-
-  const upcoming = teacherPeriods.find(e => e.day === today && e.period === period);
-  upcomingPeriod.textContent = upcoming
-    ? `Period ${upcoming.period} – ${upcoming.subject} in ${upcoming.class}`
-    : 'No scheduled period right now.';
-
-  // 📋 Vacant assignments
-  const vacantSnap = await getDocs(collection(window.db, "vacantPeriods"));
-  const assigned = vacantSnap.docs
-    .map(d => d.data())
-    .filter(v => v.assignedTeacher === selected);
-
-  vacantBody.innerHTML = '';
-  assigned.forEach(entry => {
-    const row = document.createElement('tr');
-    row.innerHTML = `<td>${entry.date}</td><td>${entry.className}</td><td>${entry.period}</td><td>${entry.absentTeacher}</td>`;
-    vacantBody.appendChild(row);
-  });
+  if (!className || !date) return alert("Select class and date");
+  const ref = doc(window.db, `attendance/${date}`, className);
+  await setDoc(ref, { present, absent, leave, sick, other });
+  alert("Attendance submitted!");
 });
+
+loadClasses();
+document.getElementById("attendance-date").value = new Date().toISOString().split("T")[0];
