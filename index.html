@@ -7,57 +7,49 @@
   <link rel="stylesheet" href="assets/css/style.css" />
   <script type="module" src="assets/js/firebase.js"></script>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans">
-  <header class="p-4 bg-blue-900 text-white flex justify-between items-center">
-    <h1 class="text-2xl font-bold">🏫 GHS Live Dashboard</h1>
-    <nav class="space-x-4">
-      <a href="pages/admin.html" class="hover:underline">Admin Panel</a>
-      <a href="pages/timetable.html" class="hover:underline">Timetable</a>
-      <a href="pages/teacher-portal.html" class="hover:underline">Attendance</a>
-      <a href="pages/display.html" class="hover:underline">Full Screen</a>
+<body>
+  <header>
+    <h1>🏫 GHS Live Dashboard</h1>
+    <nav>
+      <a href="pages/admin.html">Admin Panel</a>
+      <a href="pages/teacher-portal.html">Attendance</a>
     </nav>
   </header>
 
-  <main class="p-6 space-y-8">
-    <!-- 🔴 Live Period Tracker -->
+  <main>
     <section>
-      <h2 class="text-xl font-semibold mb-2">📡 Current Period Tracker</h2>
-      <ul id="live-periods" class="grid grid-cols-2 gap-4"></ul>
+      <h2>📡 Current Period Tracker</h2>
+      <ul id="live-periods"></ul>
     </section>
 
-    <!-- 📊 Attendance Summary -->
     <section>
-      <h2 class="text-xl font-semibold mb-2">📊 School Attendance Today</h2>
-      <div id="attendance-summary" class="grid grid-cols-2 gap-4"></div>
+      <h2>📊 School Attendance Today</h2>
+      <div id="attendance-summary"></div>
     </section>
 
-    <!-- 🏅 Student of the Month -->
     <section>
-      <h2 class="text-xl font-semibold mb-2">🏅 Student of the Month</h2>
-      <div id="student-month" class="flex items-center space-x-4">
-        <img id="student-photo" class="w-24 h-24 rounded-full object-cover" />
-        <div>
-          <p id="student-name" class="text-lg font-bold"></p>
-          <p id="student-reason" class="text-sm text-gray-600"></p>
-        </div>
+      <h2>🏅 Student of the Month</h2>
+      <div id="student-month">
+        <img id="student-photo" />
+        <p id="student-name"></p>
+        <p id="student-reason"></p>
       </div>
     </section>
 
-    <!-- 📰 News & Announcements -->
     <section>
-      <h2 class="text-xl font-semibold mb-2">📰 News & Announcements</h2>
-      <ul id="news-list" class="list-disc pl-6 text-gray-700"></ul>
+      <h2>📰 News & Announcements</h2>
+      <ul id="news-list"></ul>
     </section>
 
-    <!-- 🏫 School Info -->
-    <section class="text-center border-t pt-4">
-      <h2 class="text-xl font-semibold">🏫 Government High School Haripur</h2>
+    <section>
+      <h2>🏫 School Info</h2>
+      <p>Government High School Haripur</p>
       <p>📍 Near Main Bazaar, Haripur</p>
       <p>📞 0995-123456 | ✉️ info@ghs.edu.pk</p>
     </section>
   </main>
 
-  <footer class="p-4 text-center text-sm text-gray-500">
+  <footer>
     Made by Khurram Irshad Khan · Haripur · 2025
   </footer>
 
