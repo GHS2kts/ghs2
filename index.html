@@ -4,59 +4,58 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GHS Dashboard · Live Tracker</title>
-  <link rel="stylesheet" href="assets/css/style.css" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <script type="module" src="assets/js/firebase.js"></script>
 </head>
-<body>
-  <header>
-    <h1>🏫 GHS Live Dashboard</h1>
-    <nav>
-      <a href="pages/admin.html">Admin Panel</a>
-      <a href="pages/teacher-portal.html">Attendance</a>
-      <a href="pages/teacher-timetable.html">Teacher Timetable</a>
-      <a href="pages/display.html">Full Screen</a>
+<body class="bg-gray-100 text-gray-800">
+  <header class="bg-blue-800 text-white p-4 text-center">
+    <h1 class="text-2xl font-bold">🏫 GHS Live Dashboard</h1>
+    <nav class="mt-2 space-x-4">
+      <a href="pages/admin.html" class="underline">🛠️ Admin Panel</a>
+      <a href="pages/teacher-portal.html" class="underline">📋 Attendance</a>
+      <a href="pages/teacher-timetable.html" class="underline">📘 Teacher Timetable</a>
+      <a href="pages/display.html" class="underline">🖥️ Full Screen</a>
     </nav>
   </header>
 
-  <main>
-    <!-- 🔴 Live Period Tracker -->
+  <main class="p-6 space-y-8">
     <section>
-      <h2>📡 Current Period Tracker</h2>
-      <ul id="live-periods"></ul>
+      <p id="current-session" class="text-lg font-semibold text-blue-700">📅 Current Session: <strong>—</strong></p>
     </section>
 
-    <!-- 📊 Attendance Summary -->
     <section>
-      <h2>📊 School Attendance Today</h2>
-      <div id="attendance-summary"></div>
+      <h2 class="text-xl font-semibold">📡 Current Period Tracker</h2>
+      <ul id="live-periods" class="space-y-1"></ul>
     </section>
 
-    <!-- 🏅 Student of the Month -->
     <section>
-      <h2>🏅 Student of the Month</h2>
-      <div id="student-month">
-        <img id="student-photo" />
-        <p id="student-name"></p>
-        <p id="student-reason"></p>
+      <h2 class="text-xl font-semibold">📊 School Attendance Today</h2>
+      <div id="attendance-summary" class="grid grid-cols-2 gap-4"></div>
+    </section>
+
+    <section>
+      <h2 class="text-xl font-semibold">🏅 Student of the Month</h2>
+      <div id="student-month" class="bg-white p-4 rounded shadow text-center">
+        <img id="student-photo" class="mx-auto rounded-full max-h-40" />
+        <p id="student-name" class="text-lg font-bold mt-2"></p>
+        <p id="student-reason" class="text-sm text-gray-600"></p>
       </div>
     </section>
 
-    <!-- 📰 News & Announcements -->
     <section>
-      <h2>📰 News & Announcements</h2>
-      <ul id="news-list"></ul>
+      <h2 class="text-xl font-semibold">📰 News & Announcements</h2>
+      <ul id="news-list" class="list-disc pl-6 space-y-1"></ul>
     </section>
 
-    <!-- 🏫 School Info -->
     <section>
-      <h2>🏫 School Info</h2>
+      <h2 class="text-xl font-semibold">🏫 School Info</h2>
       <p>Government High School Haripur</p>
       <p>📍 Near Main Bazaar, Haripur</p>
       <p>📞 0995-123456 | ✉️ info@ghs.edu.pk</p>
     </section>
   </main>
 
-  <footer>
+  <footer class="bg-blue-800 text-white p-4 text-center">
     Made by Khurram Irshad Khan · Haripur · 2025
   </footer>
 
