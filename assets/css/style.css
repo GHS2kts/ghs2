@@ -1,67 +1,44 @@
+/* assets/css/style.css */
 body {
-  font-family: 'Poppins', sans-serif;
-  background: #f0f8ff;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f9fafb;
   color: #333;
   margin: 0;
   padding: 0;
 }
 
-header {
-  background: #0077b6;
+header, footer {
+  background: #1e3a8a;
   color: white;
   padding: 1rem;
   text-align: center;
-  position: relative;
-}
-
-.home-link {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  font-size: 1rem;
-  text-decoration: none;
-  color: white;
-  background-color: #023e8a;
-  padding: 0.4rem 0.8rem;
-  border-radius: 6px;
-}
-
-nav {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  background: #caf0f8;
-  padding: 1rem;
 }
 
 nav a {
-  text-decoration: none;
-  color: #0077b6;
-  font-weight: bold;
+  margin: 0 1rem;
+  color: #fff;
+  text-decoration: underline;
 }
 
-section {
+main {
   padding: 2rem;
-  background: #ffffff;
-  margin: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-table {
+input, select, textarea, button {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  font-size: 1rem;
   width: 100%;
-  border-collapse: collapse;
+  max-width: 400px;
 }
 
-th, td {
-  padding: 0.8rem;
-  border: 1px solid #ccc;
-  text-align: center;
-}
-
-footer {
-  text-align: center;
-  padding: 1rem;
-  background: #0077b6;
+button {
+  background: #2563eb;
   color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1d4ed8;
 }
