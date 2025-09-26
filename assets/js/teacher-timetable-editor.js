@@ -5,9 +5,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const teacherSelect = document.getElementById("teacher-select");
-const daySelect = document.getElementById("day-select");
-const container = document.getElementById("periods-container");
-
+const grid = document.getElementById("timetable-grid");
 let classList = [];
 
 async function loadTeachersAndClasses() {
@@ -17,48 +15,53 @@ async function loadTeachersAndClasses() {
   classList = classSnap.exists() ? classSnap.data().list : [];
 
   teacherSelect.innerHTML = teacherList.map(t => `<option value="${t}">${t}</option>`).join("");
-  renderPeriodInputs();
+  renderGrid();
 }
 
-function renderPeriodInputs() {
-  const day = daySelect.value;
-  const periods = day === "Friday" ? 5 : 8;
-  container.innerHTML = "";
+function renderGrid() {
+  const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+  let html = `<table class="table-auto border w-full text-sm"><thead><tr><th>Day</th>`;
+  for (let i = 1; i <= 8; i++) html += `<th>Period ${i}</th>`;
+  html += `</tr></thead><tbody>`;
 
-  for (let i = 1; i <= periods; i++) {
-    const div = document.createElement("div");
-    div.innerHTML = `
-      <label>Period ${i}:</label>
-      <input type="text" placeholder="Subject" id="subject-${i}" />
-      <select id="class-${i}">
-        ${classList.map(c => `<option value="${c}">${c}</option>`).join("")}
-      </select>
-    `;
-    container.appendChild(div);
-  }
+  weekdays.forEach(day => {
+    html += `<tr><td class="font-semibold">${day}</td>`;
+    const periods = day === "Friday" ? 5 : 8;
+    for (let i = 1; i <= periods; i++) {
+      html += `<td>
+        <input type="text" placeholder="Subject" class="subject border p-1 w-full" data-day="${day}" data-period="${i}" />
+        <select class="class border p-1 w-full mt-1" data-day="${day}" data-period="${i}">
+          ${classList.map(c => `<option value="${c}">${c}</option>`).join("")}
+        </select>
+      </td>`;
+    }
+    if (day === "Friday") html += `<td colspan="3" class="bg-gray-200"></td>`;
+    html += `</tr>`;
+  });
+
+  html += `</tbody></table>`;
+  grid.innerHTML = html;
 }
-
-daySelect.addEventListener("change", renderPeriodInputs);
 
 document.getElementById("save-timetable").addEventListener("click", async () => {
   const teacherName = teacherSelect.value;
-  const day = daySelect.value;
-  const periods = day === "Friday" ? 5 : 8;
-  const dayData = [];
+  if (!teacherName) return alert("Select a teacher");
 
-  for (let i = 1; i <= periods; i++) {
-    const subject = document.getElementById(`subject-${i}`).value.trim();
-    const className = document.getElementById(`class-${i}`).value;
-    dayData.push({ subject, class: className });
-  }
+  const data = { days: {} };
+  const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 
-  const ref = doc(window.db, "teacherTimetables", teacherName);
-  const snap = await getDoc(ref);
-  const data = snap.exists() ? snap.data() : {};
-  data.days = data.days || {};
-  data.days[day] = dayData;
+  weekdays.forEach(day => {
+    const periods = day === "Friday" ? 5 : 8;
+    const dayData = [];
+    for (let i = 1; i <= periods; i++) {
+      const subject = document.querySelector(`.subject[data-day="${day}"][data-period="${i}"]`).value.trim();
+      const className = document.querySelector(`.class[data-day="${day}"][data-period="${i}"]`).value;
+      dayData.push({ subject, class: className });
+    }
+    data.days[day] = dayData;
+  });
 
-  await setDoc(ref, data);
+  await setDoc(doc(window.db, "teacherTimetables", teacherName), data);
   alert("Timetable saved!");
 });
 
