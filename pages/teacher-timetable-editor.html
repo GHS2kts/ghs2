@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Teacher Timetable Editor · GHS Dashboard</title>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <script type="module" src="../assets/js/firebase.js"></script>
+</head>
+<body>
+  <header>
+    <h1>👨‍🏫 Teacher Timetable Editor</h1>
+    <nav>
+      <a href="../index.html">🏠 Home</a>
+      <a href="admin.html">🛠️ Admin</a>
+    </nav>
+  </header>
+
+  <main class="p-4 space-y-6">
+    <section>
+      <label for="teacher-select">👨‍🏫 Select Teacher:</label>
+      <select id="teacher-select"></select>
+    </section>
+
+    <section>
+      <label for="day-select">📆 Select Day:</label>
+      <select id="day-select">
+        <option>Monday</option>
+        <option>Tuesday</option>
+        <option>Wednesday</option>
+        <option>Thursday</option>
+        <option>Friday</option>
+      </select>
+    </section>
+
+    <section id="periods-container" class="space-y-2"></section>
+
+    <button id="save-timetable">💾 Save Timetable</button>
+  </main>
+
+  <footer>
+    Made by Khurram Irshad Khan · Haripur · 2025
+  </footer>
+
+  <script type="module" src="../assets/js/teacher-timetable-editor.js"></script>
+</body>
+</html>
