@@ -5,6 +5,13 @@ import {
   getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+// 📅 Current Session
+async function loadCurrentSession() {
+  const snap = await getDoc(doc(window.db, "sessions", "current"));
+  const name = snap.exists() ? snap.data().name : "—";
+  document.getElementById("current-session").innerHTML = `📅 Current Session: <strong>${name}</strong>`;
+}
+
 // 📡 Live Period Tracker
 async function loadLivePeriods() {
   const now = new Date();
@@ -18,7 +25,7 @@ async function loadLivePeriods() {
     const className = docSnap.id;
     const data = docSnap.data();
     const periods = data.days?.[day] || [];
-    const currentPeriod = periods.find((_, i) => hour === 8 + i); // Example logic
+    const currentPeriod = periods.find((_, i) => hour === 8 + i);
     const li = document.createElement("li");
     li.innerHTML = `<strong>${className}</strong>: ${currentPeriod?.subject || "—"} (${currentPeriod?.teacher || "—"})`;
     container.appendChild(li);
@@ -35,7 +42,7 @@ async function loadAttendanceSummary() {
     for (const key in totals) totals[key] += data[key] || 0;
   });
   const container = document.getElementById("attendance-summary");
-  container.innerHTML = Object.entries(totals).map(([k, v]) => `<p>${k}: ${v}</p>`).join("");
+  container.innerHTML = Object.entries(totals).map(([k, v]) => `<div class="bg-white p-2 rounded shadow">${k}: ${v}</div>`).join("");
 }
 
 // 🏅 Student of the Month
@@ -56,6 +63,8 @@ async function loadNews() {
   container.innerHTML = list.map(item => `<li>${item}</li>`).join("");
 }
 
+// 🔄 Init
+loadCurrentSession();
 loadLivePeriods();
 loadAttendanceSummary();
 loadStudentOfMonth();
