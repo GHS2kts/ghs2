@@ -1,18 +1,20 @@
 import {
   doc,
   setDoc,
-  getDoc
+  getDoc,
+  getDocs,
+  collection
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// Load class list
 const classSelect = document.getElementById("class-select");
+const summary = document.getElementById("attendance-summary");
+
 async function loadClasses() {
   const snap = await getDoc(doc(window.db, "config", "classes"));
   const list = snap.exists() ? snap.data().list : [];
   classSelect.innerHTML = list.map(name => `<option value="${name}">${name}</option>`).join("");
 }
 
-// Submit attendance
 document.getElementById("submit-attendance").addEventListener("click", async () => {
   const className = classSelect.value;
   const date = document.getElementById("attendance-date").value;
@@ -26,7 +28,27 @@ document.getElementById("submit-attendance").addEventListener("click", async () 
   const ref = doc(window.db, `attendance/${date}`, className);
   await setDoc(ref, { present, absent, leave, sick, other });
   alert("Attendance submitted!");
+  loadSummary(date);
 });
+
+async function loadSummary(date) {
+  const snap = await getDocs(collection(window.db, `attendance/${date}`));
+  summary.innerHTML = "";
+  snap.forEach(docSnap => {
+    const data = docSnap.data();
+    const className = docSnap.id;
+    const card = document.createElement("div");
+    card.className = "bg-white p-4 rounded shadow";
+    card.innerHTML = `<h3 class="font-bold">${className}</h3>
+      <p>✅ Present: ${data.present}</p>
+      <p>❌ Absent: ${data.absent}</p>
+      <p>📝 Leave: ${data.leave}</p>
+      <p>🤒 Sick: ${data.sick}</p>
+      <p>📌 Other: ${data.other}</p>`;
+    summary.appendChild(card);
+  });
+}
 
 loadClasses();
 document.getElementById("attendance-date").value = new Date().toISOString().split("T")[0];
+loadSummary(document.getElementById("attendance-date").value);
