@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login · GHS Dashboard</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <script defer src="../assets/js/login.js"></script>
+</head>
+<body class="text-white font-sans bg-gradient-to-br from-blue-900 to-slate-900 flex items-center justify-center h-screen">
+
+  <div class="bg-white/10 p-8 rounded-lg shadow-lg w-full max-w-md space-y-6 text-center">
+    <h1 class="text-2xl font-bold">🔐 GHS Dashboard Login</h1>
+    <p id="roleLabel" class="text-blue-200 italic">Logging in as: <span class="font-semibold" id="roleName">Unknown</span></p>
+
+    <input type="text" id="username" placeholder="Username" class="w-full p-2 rounded bg-white text-black" />
+    <input type="password" id="password" placeholder="Password" class="w-full p-2 rounded bg-white text-black" />
+
+    <button id="loginBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded">Login</button>
+    <p id="loginStatus" class="text-sm text-yellow-300"></p>
+
+    <a href="../index.html" class="text-xs text-blue-300 hover:underline">← Back to Home</a>
+  </div>
+
+</body>
+</html>
