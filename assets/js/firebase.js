@@ -22,4 +22,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
+// Make Firestore globally accessible
 window.db = db;
