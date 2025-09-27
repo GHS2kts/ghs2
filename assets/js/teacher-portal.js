@@ -1,54 +1,90 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
-  doc,
-  setDoc,
-  getDoc,
+  getFirestore,
+  collection,
   getDocs,
-  collection
+  addDoc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-const classSelect = document.getElementById("class-select");
-const summary = document.getElementById("attendance-summary");
+const firebaseConfig = {
+  apiKey: "AIzaSyBK5n_xfpyPpXB8YOa5_fs53ciLpRoC5lI",
+  authDomain: "ghs-dashboard.firebaseapp.com",
+  projectId: "ghs-dashboard",
+  storageBucket: "ghs-dashboard.firebasestorage.app",
+  messagingSenderId: "692567259749",
+  appId: "1:692567259749:web:4ef59b0ad8ba554d9de48c",
+  measurementId: "G-P5DP6W67DH"
+};
 
-async function loadClasses() {
-  const snap = await getDoc(doc(window.db, "config", "classes"));
-  const list = snap.exists() ? snap.data().list : [];
-  classSelect.innerHTML = list.map(name => `<option value="${name}">${name}</option>`).join("");
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+async function loadTimetable() {
+  const grid = document.getElementById('timetableGrid');
+  const snapshot = await getDocs(collection(db, 'timetable'));
+  let html = "";
+
+  snapshot.forEach(doc => {
+    const { day, period, subject } = doc.data();
+    html += `<div class="bg-white/10 p-2 rounded">${day} · ${period}<br /><span class="font-semibold">${subject}</span></div>`;
+  });
+
+  grid.innerHTML = html;
 }
 
-document.getElementById("submit-attendance").addEventListener("click", async () => {
-  const className = classSelect.value;
-  const date = document.getElementById("attendance-date").value;
-  const present = parseInt(document.getElementById("present").value) || 0;
-  const absent = parseInt(document.getElementById("absent").value) || 0;
-  const leave = parseInt(document.getElementById("leave").value) || 0;
-  const sick = parseInt(document.getElementById("sick").value) || 0;
-  const other = parseInt(document.getElementById("other").value) || 0;
+async function populateDropdowns() {
+  const classSelect = document.getElementById('classSelect');
+  const sectionSelect = document.getElementById('sectionSelect');
 
-  if (!className || !date) return alert("Select class and date");
-  const ref = doc(window.db, `attendance/${date}`, className);
-  await setDoc(ref, { present, absent, leave, sick, other });
-  alert("Attendance submitted!");
-  loadSummary(date);
-});
+  const classSnap = await getDocs(collection(db, 'classes'));
+  classSnap.forEach(doc => {
+    const { name } = doc.data();
+    classSelect.innerHTML += `<option value="${name}">${name}</option>`;
+  });
 
-async function loadSummary(date) {
-  const snap = await getDocs(collection(window.db, `attendance/${date}`));
-  summary.innerHTML = "";
-  snap.forEach(docSnap => {
-    const data = docSnap.data();
-    const className = docSnap.id;
-    const card = document.createElement("div");
-    card.className = "bg-white p-4 rounded shadow";
-    card.innerHTML = `<h3 class="font-bold">${className}</h3>
-      <p>✅ Present: ${data.present}</p>
-      <p>❌ Absent: ${data.absent}</p>
-      <p>📝 Leave: ${data.leave}</p>
-      <p>🤒 Sick: ${data.sick}</p>
-      <p>📌 Other: ${data.other}</p>`;
-    summary.appendChild(card);
+  const sectionSnap = await getDocs(collection(db, 'sections'));
+  sectionSnap.forEach(doc => {
+    const { name } = doc.data();
+    sectionSelect.innerHTML += `<option value="${name}">${name}</option>`;
   });
 }
 
-loadClasses();
-document.getElementById("attendance-date").value = new Date().toISOString().split("T")[0];
-loadSummary(document.getElementById("attendance-date").value);
+document.getElementById('markAttendanceBtn').addEventListener('click', async () => {
+  const className = document.getElementById('classSelect').value;
+  const sectionName = document.getElementById('sectionSelect').value;
+  const notes = document.getElementById('attendanceNotes').value.trim();
+  const status = document.getElementById('attendanceStatus');
+
+  await addDoc(collection(db, 'attendance'), {
+    className,
+    sectionName,
+    notes,
+    timestamp: Date.now()
+  });
+
+  status.textContent = "Attendance submitted successfully!";
+});
+
+document.getElementById('submitSpotlightBtn').addEventListener('click', async () => {
+  const studentName = document.getElementById('studentName').value.trim();
+  const achievement = document.getElementById('achievement').value.trim();
+  const status = document.getElementById('spotlightStatus');
+
+  if (!studentName || !achievement) {
+    status.textContent = "Please enter both name and achievement.";
+    return;
+  }
+
+  await addDoc(collection(db, 'spotlight'), {
+    studentName,
+    achievement,
+    timestamp: Date.now()
+  });
+
+  status.textContent = "Spotlight submitted successfully!";
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadTimetable();
+  populateDropdowns();
+});
+
