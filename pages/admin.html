@@ -6,45 +6,80 @@
   <link rel="stylesheet" href="../css/styles.css" />
   <script defer src="../assets/js/admin.js"></script>
 </head>
-<body class="text-white font-sans bg-gradient-to-br from-blue-900 to-slate-900 overflow-x-hidden">
+<body class="text-white font-sans bg-gradient-to-br from-green-900 to-slate-900 overflow-x-hidden">
 
   <!-- 🌠 Ambient Background -->
   <div id="ambient-bg" class="fixed inset-0 -z-10 bg-cover bg-center blur-sm opacity-40"></div>
 
-  <!-- 🧑‍💼 Admin Panel -->
-  <section class="min-h-screen flex flex-col items-center justify-center text-center px-6 space-y-6 animate-fade-in">
-    <div class="bg-white/10 backdrop-blur-md p-6 rounded-xl shadow-xl max-w-4xl w-full space-y-6 border border-white/20">
-
-      <h1 class="text-3xl font-bold text-yellow-300 animate-slide-up">🧑‍💼 Admin Panel</h1>
-      <p class="text-blue-200 italic">Manage your school’s backbone · Empower every module</p>
-
-      <!-- 🔧 Module Blocks -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
-        <div class="bg-white/10 p-4 rounded-lg shadow-md space-y-2">
-          <h2 class="text-lg font-semibold text-yellow-300">👨‍🏫 Teachers</h2>
-          <p id="teachers" class="text-sm text-white/80">Loading teachers…</p>
-        </div>
-
-        <div class="bg-white/10 p-4 rounded-lg shadow-md space-y-2">
-          <h2 class="text-lg font-semibold text-yellow-300">🏫 Classes</h2>
-          <p id="classes" class="text-sm text-white/80">Loading classes…</p>
-        </div>
-
-        <div class="bg-white/10 p-4 rounded-lg shadow-md space-y-2">
-          <h2 class="text-lg font-semibold text-yellow-300">📚 Sections</h2>
-          <p id="sections" class="text-sm text-white/80">Loading sections…</p>
-        </div>
-
-        <div class="bg-white/10 p-4 rounded-lg shadow-md space-y-2">
-          <h2 class="text-lg font-semibold text-yellow-300">🖥️ Slides</h2>
-          <p id="slides" class="text-sm text-white/80">Loading slides…</p>
-        </div>
+  <!-- 📌 Top Navigation -->
+  <nav class="w-full fixed top-0 left-0 z-50 bg-green-800/80 backdrop-blur-md shadow-md border-b border-white/10">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center text-sm">
+      <div class="font-bold text-yellow-300 tracking-wide">🧑‍💼 Admin Panel</div>
+      <div class="flex gap-4">
+        <a href="../index.html" class="btn-role">🏠 Home</a>
+        <a href="teacher-portal.html" class="btn-role">👨‍🏫 Teacher Portal</a>
+        <a href="display.html" class="btn-role">🖥️ Display</a>
       </div>
+    </div>
+  </nav>
+
+  <!-- 🧩 Admin Modules -->
+  <section class="min-h-screen flex flex-col items-center justify-center text-center px-6 pt-28 space-y-6 animate-fade-in">
+    <div class="glass-panel max-w-5xl w-full space-y-8">
+
+      <h1 class="text-3xl font-bold text-yellow-300 animate-slide-up">Manage Your School · Empower Every Module</h1>
+
+      <!-- 👨‍🏫 Teachers -->
+      <div class="space-y-4 text-left">
+        <h2 class="text-xl font-bold text-yellow-300">👨‍🏫 Teachers</h2>
+        <form id="teacherForm" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <input type="text" id="teacherName" placeholder="Name" required />
+          <input type="text" id="teacherSubject" placeholder="Subject" required />
+          <input type="text" id="teacherContact" placeholder="Contact" required />
+          <button type="submit" class="btn-role w-full md:col-span-3">➕ Add Teacher</button>
+        </form>
+        <ul id="teacherList" class="space-y-2 mt-2 text-sm"></ul>
+      </div>
+
+      <!-- 🏫 Classes -->
+      <div class="space-y-4 text-left">
+        <h2 class="text-xl font-bold text-yellow-300">🏫 Classes</h2>
+        <form id="classForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <input type="text" id="className" placeholder="Class Name" required />
+          <input type="text" id="classGrade" placeholder="Grade Level" required />
+          <button type="submit" class="btn-role w-full md:col-span-2">➕ Add Class</button>
+        </form>
+        <ul id="classList" class="space-y-2 mt-2 text-sm"></ul>
+      </div>
+
+      <!-- 📚 Sections -->
+      <div class="space-y-4 text-left">
+        <h2 class="text-xl font-bold text-yellow-300">📚 Sections</h2>
+        <form id="sectionForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <input type="text" id="sectionName" placeholder="Section Name" required />
+          <input type="text" id="sectionClass" placeholder="Linked Class" required />
+          <button type="submit" class="btn-role w-full md:col-span-2">➕ Add Section</button>
+        </form>
+        <ul id="sectionList" class="space-y-2 mt-2 text-sm"></ul>
+      </div>
+
+      <!-- 🖥️ Slides -->
+      <div class="space-y-4 text-left">
+        <h2 class="text-xl font-bold text-yellow-300">🖥️ Slides</h2>
+        <form id="slideForm" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <input type="text" id="slideTitle" placeholder="Title" required />
+          <input type="text" id="slideMessage" placeholder="Message" required />
+          <input type="text" id="slideImage" placeholder="Image URL" required />
+          <button type="submit" class="btn-role w-full md:col-span-3">➕ Add Slide</button>
+        </form>
+        <ul id="slideList" class="space-y-2 mt-2 text-sm"></ul>
+      </div>
+
     </div>
   </section>
 
   <!-- 📱 Footer -->
-  <footer class="fixed bottom-0 w-full text-center py-4 text-white text-sm animate-fade-in">
+  <footer class="w-full text-center py-6 text-white text-sm animate-fade-in">
     <img src="../assets/qr-facebook-ghs.png" class="w-16 h-16 mx-auto mb-2 animate-bounce" />
     <div class="space-y-1">
       <span>GHS Sector No. 2, KTS Haripur · 📞 0995-619449 · 📧 7085hr@gmail.com</span><br />
