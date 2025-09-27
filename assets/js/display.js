@@ -55,4 +55,42 @@ function showSpotlight(name, reason, photo) {
 }
 
 
+import { doc, getDoc } from "./firebase.js";
 
+function setAmbientBackground() {
+  const hour = new Date().getHours();
+  const bg = document.getElementById('ambient-bg');
+
+  if (hour >= 6 && hour < 12) {
+    bg.style.backgroundImage = "url('../assets/bg-morning.jpg')";
+  } else if (hour >= 12 && hour < 18) {
+    bg.style.backgroundImage = "url('../assets/bg-afternoon.jpg')";
+  } else {
+    bg.style.backgroundImage = "url('../assets/bg-evening.jpg')";
+  }
+
+  bg.style.transition = 'background-image 1s ease-in-out';
+}
+
+async function getCurrentPeriod() {
+  const ref = doc(window.db, 'config', 'periods');
+  const snap = await getDoc(ref);
+  if (!snap.exists()) return "Unknown";
+
+  const now = new Date();
+  const current = `${now.getHours()}`.padStart(2, '0') + ":" + `${now.getMinutes()}`.padStart(2, '0');
+  const schedule = snap.data().schedule;
+
+  for (const p of schedule) {
+    if (current >= p.start && current < p.end) return p.name;
+  }
+
+  return "Off Period";
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  setAmbientBackground();
+  getCurrentPeriod().then(period => {
+    document.getElementById('currentPeriod').textContent = period;
+  });
+});
