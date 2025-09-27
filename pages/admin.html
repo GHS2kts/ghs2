@@ -6,33 +6,52 @@
   <link rel="stylesheet" href="../css/styles.css" />
   <script defer src="../assets/js/admin.js"></script>
 </head>
-<body class="text-white font-sans">
+<body class="text-white font-sans bg-gradient-to-br from-blue-900 to-slate-900 overflow-x-hidden">
 
   <!-- 🌠 Ambient Background -->
-  <div id="ambient-bg" class="fixed inset-0 -z-10 bg-cover bg-center"></div>
+  <div id="ambient-bg" class="fixed inset-0 -z-10 bg-cover bg-center blur-sm opacity-40"></div>
 
-  <!-- 🧭 Navigation Tabs -->
-  <nav class="flex justify-center space-x-4 mt-6">
-    <button class="tab-btn" data-tab="teachers">👨‍🏫 Teachers</button>
-    <button class="tab-btn" data-tab="classes">🏫 Classes</button>
-    <button class="tab-btn" data-tab="sections">📚 Sections</button>
-    <button class="tab-btn" data-tab="slides">🖥️ Slides</button>
-  </nav>
+  <!-- 🧑‍💼 Admin Panel -->
+  <section class="min-h-screen flex flex-col items-center justify-center text-center px-6 space-y-6 animate-fade-in">
+    <div class="bg-white/10 backdrop-blur-md p-6 rounded-xl shadow-xl max-w-4xl w-full space-y-6 border border-white/20">
 
-  <!-- 📦 Tab Containers -->
-  <main class="mt-8 px-6 space-y-6">
-    <section id="tab-teachers" class="tab hidden bg-white/10 p-4 rounded-lg shadow-md">Loading teachers…</section>
-    <section id="tab-classes" class="tab hidden bg-white/10 p-4 rounded-lg shadow-md">Loading classes…</section>
-    <section id="tab-sections" class="tab hidden bg-white/10 p-4 rounded-lg shadow-md">Loading sections…</section>
-    <section id="tab-slides" class="tab hidden bg-white/10 p-4 rounded-lg shadow-md">Loading slides…</section>
-  </main>
+      <h1 class="text-3xl font-bold text-yellow-300 animate-slide-up">🧑‍💼 Admin Panel</h1>
+      <p class="text-blue-200 italic">Manage your school’s backbone · Empower every module</p>
 
-  <!-- 🏷️ Footer Signature -->
-  <footer class="fixed bottom-0 w-full text-center py-2 text-white text-sm animate-fade-in">
-    <span>GHS Sector No. 2, KTS Haripur · 📞 0995-619449 · 📧 7085hr@gmail.com</span><br />
-    <span class="font-semibold tracking-wide animate-glow hover:underline">
-      Crafted by Khurram Irshad Khan · SST(IT) · 📱 0333-9719300
-    </span>
+      <!-- 🔧 Module Blocks -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+        <div class="bg-white/10 p-4 rounded-lg shadow-md space-y-2">
+          <h2 class="text-lg font-semibold text-yellow-300">👨‍🏫 Teachers</h2>
+          <p id="teachers" class="text-sm text-white/80">Loading teachers…</p>
+        </div>
+
+        <div class="bg-white/10 p-4 rounded-lg shadow-md space-y-2">
+          <h2 class="text-lg font-semibold text-yellow-300">🏫 Classes</h2>
+          <p id="classes" class="text-sm text-white/80">Loading classes…</p>
+        </div>
+
+        <div class="bg-white/10 p-4 rounded-lg shadow-md space-y-2">
+          <h2 class="text-lg font-semibold text-yellow-300">📚 Sections</h2>
+          <p id="sections" class="text-sm text-white/80">Loading sections…</p>
+        </div>
+
+        <div class="bg-white/10 p-4 rounded-lg shadow-md space-y-2">
+          <h2 class="text-lg font-semibold text-yellow-300">🖥️ Slides</h2>
+          <p id="slides" class="text-sm text-white/80">Loading slides…</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 📱 Footer -->
+  <footer class="fixed bottom-0 w-full text-center py-4 text-white text-sm animate-fade-in">
+    <img src="../assets/qr-facebook-ghs.png" class="w-16 h-16 mx-auto mb-2 animate-bounce" />
+    <div class="space-y-1">
+      <span>GHS Sector No. 2, KTS Haripur · 📞 0995-619449 · 📧 7085hr@gmail.com</span><br />
+      <span class="font-semibold tracking-wide animate-glow hover:underline">
+        Crafted by Khurram Irshad Khan · SST(IT) · 📱 0333-9719300
+      </span>
+    </div>
   </footer>
 
 </body>
