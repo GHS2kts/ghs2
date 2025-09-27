@@ -1,90 +1,96 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
 import {
-  getFirestore,
-  collection,
-  getDocs,
-  addDoc
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  getFirestore, collection, addDoc, serverTimestamp, doc, getDoc
+} from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
 
+// 🔥 Firebase Config
 const firebaseConfig = {
-  apiKey: "AIzaSyBK5n_xfpyPpXB8YOa5_fs53ciLpRoC5lI",
-  authDomain: "ghs-dashboard.firebaseapp.com",
-  projectId: "ghs-dashboard",
-  storageBucket: "ghs-dashboard.firebasestorage.app",
-  messagingSenderId: "692567259749",
-  appId: "1:692567259749:web:4ef59b0ad8ba554d9de48c",
-  measurementId: "G-P5DP6W67DH"
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-async function loadTimetable() {
-  const grid = document.getElementById('timetableGrid');
-  const snapshot = await getDocs(collection(db, 'timetable'));
-  let html = "";
 
-  snapshot.forEach(doc => {
-    const { day, period, subject } = doc.data();
-    html += `<div class="bg-white/10 p-2 rounded">${day} · ${period}<br /><span class="font-semibold">${subject}</span></div>`;
-  });
+// 🌠 Ambient Background
+const bg = document.getElementById("ambient-bg");
+const hour = new Date().getHours();
+if (hour < 12) bg.style.backgroundImage = "url('../assets/bg-morning.jpg')";
+else if (hour < 17) bg.style.backgroundImage = "url('../assets/bg-afternoon.jpg')";
+else bg.style.backgroundImage = "url('../assets/bg-evening.jpg')";
 
-  grid.innerHTML = html;
-}
-
-async function populateDropdowns() {
-  const classSelect = document.getElementById('classSelect');
-  const sectionSelect = document.getElementById('sectionSelect');
-
-  const classSnap = await getDocs(collection(db, 'classes'));
-  classSnap.forEach(doc => {
-    const { name } = doc.data();
-    classSelect.innerHTML += `<option value="${name}">${name}</option>`;
-  });
-
-  const sectionSnap = await getDocs(collection(db, 'sections'));
-  sectionSnap.forEach(doc => {
-    const { name } = doc.data();
-    sectionSelect.innerHTML += `<option value="${name}">${name}</option>`;
-  });
-}
-
-document.getElementById('markAttendanceBtn').addEventListener('click', async () => {
-  const className = document.getElementById('classSelect').value;
-  const sectionName = document.getElementById('sectionSelect').value;
-  const notes = document.getElementById('attendanceNotes').value.trim();
-  const status = document.getElementById('attendanceStatus');
-
-  await addDoc(collection(db, 'attendance'), {
-    className,
-    sectionName,
-    notes,
-    timestamp: Date.now()
-  });
-
-  status.textContent = "Attendance submitted successfully!";
-});
-
-document.getElementById('submitSpotlightBtn').addEventListener('click', async () => {
-  const studentName = document.getElementById('studentName').value.trim();
-  const achievement = document.getElementById('achievement').value.trim();
-  const status = document.getElementById('spotlightStatus');
-
-  if (!studentName || !achievement) {
-    status.textContent = "Please enter both name and achievement.";
-    return;
+// 🕒 Smart Period Detection
+async function detectPeriod() {
+  const now = new Date();
+  const day = now.toLocaleDateString("en-PK", { weekday: "long" });
+  const hour = now.getHours();
+  const periodRef = doc(db, "periods", day);
+  const snap = await getDoc(periodRef);
+  if (snap.exists()) {
+    const periods = snap.data().slots;
+    const current = periods.find(p => hour >= p.start && hour < p.end);
+    const display = current ? `Current Period: ${current.name}` : "No active period";
+    const el = document.createElement("p");
+    el.textContent = display;
+    el.className = "text-yellow-300 font-semibold text-lg animate-glow mt-4";
+    document.body.querySelector("section").appendChild(el);
   }
+}
+detectPeriod();
 
-  await addDoc(collection(db, 'spotlight'), {
-    studentName,
-    achievement,
-    timestamp: Date.now()
-  });
-
-  status.textContent = "Spotlight submitted successfully!";
+// 📝 Attendance Submission
+document.querySelector("#notes")?.addEventListener("keydown", e => {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    submitAttendance();
+  }
 });
+document.querySelector("button.btn-role")?.addEventListener("click", submitAttendance);
 
-document.addEventListener('DOMContentLoaded', () => {
-  loadTimetable();
-  populateDropdowns();
+async function submitAttendance() {
+  const notes = document.getElementById("notes").value.trim();
+  if (notes) {
+    await addDoc(collection(db, "attendance"), {
+      notes,
+      timestamp: serverTimestamp()
+    });
+    document.getElementById("notes").value = "";
+    alert("✅ Attendance submitted");
+  }
+}
+
+// 🌟 Student Spotlight
+document.querySelector("#studentName")?.addEventListener("keydown", e => {
+  if (e.key === "Enter") document.getElementById("achievement").focus();
 });
+document.querySelector("#achievement")?.addEventListener("keydown", e => {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    submitSpotlight();
+  }
+});
+document.querySelectorAll("button.btn-role")[1]?.addEventListener("click", submitSpotlight);
 
+async function submitSpotlight() {
+  const name = document.getElementById("studentName").value.trim();
+  const reason = document.getElementById("achievement").value.trim();
+  if (name && reason) {
+    await addDoc(collection(db, "spotlights"), {
+      name,
+      reason,
+      timestamp: serverTimestamp()
+    });
+    document.getElementById("studentName").value = "";
+    document.getElementById("achievement").value = "";
+    alert("🌟 Spotlight submitted");
+  }
+}
+
+// 📦 Service Worker
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("../service-worker.js");
+}
