@@ -1,48 +1,32 @@
-const CACHE_NAME = 'ghs-dashboard-v1';
+const CACHE_NAME = "ghs-dashboard-v1";
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/css/styles.css',
-  '/assets/js/index.js',
-  '/assets/js/display.js',
-  '/assets/bg-morning.jpg',
-  '/assets/bg-afternoon.jpg',
-  '/assets/bg-evening.jpg',
-  '/assets/qr-facebook-ghs.png',
-  '/pages/display.html',
-  '/pages/login.html',
-  '/pages/teacher-portal.html',
-  '/pages/admin.html'
+  "/",
+  "/index.html",
+  "/css/styles.css",
+  "/assets/js/index.js",
+  "/assets/js/login.js",
+  "/assets/js/teacher-portal.js",
+  "/assets/js/admin.js",
+  "/assets/js/display.js",
+  "/pages/login.html",
+  "/pages/admin.html",
+  "/pages/teacher-portal.html",
+  "/pages/display.html",
+  "/assets/bg-morning.jpg",
+  "/assets/bg-afternoon.jpg",
+  "/assets/bg-evening.jpg",
+  "/assets/icons/icon-192.png",
+  "/assets/icons/icon-512.png"
 ];
 
-self.addEventListener('install', event => {
+self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      console.log('📦 Caching dashboard assets');
-      return cache.addAll(urlsToCache);
-    })
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(urlsToCache))
   );
 });
 
-self.addEventListener('fetch', event => {
+self.addEventListener("fetch", (event) => {
   event.respondWith(
-    caches.match(event.request).then(response => {
-      return response || fetch(event.request);
-    })
-  );
-});
-
-self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(
-        keys.map(key => {
-          if (key !== CACHE_NAME) {
-            console.log('🧹 Removing old cache:', key);
-            return caches.delete(key);
-          }
-        })
-      )
-    )
+    caches.match(event.request).then((response) => response || fetch(event.request))
   );
 });
