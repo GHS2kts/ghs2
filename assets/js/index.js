@@ -14,3 +14,16 @@ function setAmbientBackground() {
 }
 
 document.addEventListener('DOMContentLoaded', setAmbientBackground);
+function updateClockTitle() {
+  const now = new Date();
+  const time = now.toLocaleTimeString('en-PK', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true
+  });
+  document.title = `GHS Dashboard · ${time}`;
+}
+
+// Initial call + update every minute
+updateClockTitle();
+setInterval(updateClockTitle, 60000);
