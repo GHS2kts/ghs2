@@ -1,38 +1,29 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import {
-  getAuth,
-  signInWithEmailAndPassword
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+document.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  const role = params.get('role') || 'guest';
+  const roleName = document.getElementById('roleName');
+  const roleLabel = document.getElementById('roleLabel');
+  const loginBtn = document.getElementById('loginBtn');
+  const status = document.getElementById('loginStatus');
 
-// Firebase config (same as firebase.js)
-const firebaseConfig = {
-  apiKey: "AIzaSyBK5n_xfpyPpXB8YOa5_fs53ciLpRoC5lI",
-  authDomain: "ghs-dashboard.firebaseapp.com",
-  projectId: "ghs-dashboard",
-  storageBucket: "ghs-dashboard.firebasestorage.app",
-  messagingSenderId: "692567259749",
-  appId: "1:692567259749:web:4ef59b0ad8ba554d9de48c",
-  measurementId: "G-P5DP6W67DH"
-};
+  roleName.textContent = role.charAt(0).toUpperCase() + role.slice(1);
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+  loginBtn.addEventListener('click', () => {
+    const user = document.getElementById('username').value.trim();
+    const pass = document.getElementById('password').value.trim();
 
-// 🔐 Login Handler
-document.getElementById('loginBtn').addEventListener('click', async () => {
-  const email = document.getElementById('email').value.trim();
-  const password = document.getElementById('password').value.trim();
-  const role = document.getElementById('roleSelect').value;
-  const errorMsg = document.getElementById('errorMsg');
+    if (!user || !pass) {
+      status.textContent = "Please enter both username and password.";
+      return;
+    }
 
-  try {
-    await signInWithEmailAndPassword(auth, email, password);
-
-    // 🔀 Role-based redirection
-    if (role === 'admin') window.location.href = 'admin.html';
-    else if (role === 'teacher') window.location.href = 'teacher-portal.html';
-    else if (role === 'display') window.location.href = 'display.html';
-  } catch (error) {
-    errorMsg.textContent = "Login failed. Please check your credentials.";
-  }
+    // 🔐 Replace this with real auth logic later
+    if (user === "admin" && pass === "1234" && role === "admin") {
+      window.location.href = "../pages/admin.html";
+    } else if (user === "teacher" && pass === "1234" && role === "teacher") {
+      window.location.href = "../pages/teacher-portal.html";
+    } else {
+      status.textContent = "Invalid credentials or role mismatch.";
+    }
+  });
 });
