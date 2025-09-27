@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Timetable Editor · GHS Dashboard</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <script defer src="../assets/js/timetable-editor.js"></script>
+</head>
+<body class="text-white font-sans">
+
+  <!-- 🌠 Ambient Background -->
+  <div id="ambient-bg" class="fixed inset-0 -z-10 bg-cover bg-center"></div>
+
+  <!-- 🧭 Header -->
+  <header class="text-center mt-6">
+    <h1 class="text-2xl font-bold">🗓️ Timetable Editor</h1>
+    <p class="text-blue-200 italic">Define your school’s weekly rhythm</p>
+  </header>
+
+  <!-- 📋 Timetable Grid -->
+  <section class="max-w-6xl mx-auto mt-8 bg-white/10 p-6 rounded-lg shadow-lg space-y-6">
+    <div class="grid grid-cols-6 gap-4 text-sm font-semibold text-center">
+      <div>Day</div>
+      <div>Period</div>
+      <div>Subject</div>
+      <div>Teacher</div>
+      <div>Room</div>
+      <div>🗑️</div>
+    </div>
+    <div id="timetableRows" class="space-y-4"></div>
+    <button id="addRowBtn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">➕ Add Row</button>
+    <button id="saveTimetableBtn" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded ml-4">💾 Save Timetable</button>
+    <p id="saveStatus" class="text-sm text-green-300 mt-2"></p>
+  </section>
+
+</body>
+</html>
