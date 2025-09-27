@@ -6,35 +6,34 @@
   <link rel="stylesheet" href="css/styles.css" />
   <script defer src="assets/js/index.js"></script>
   <link rel="manifest" href="manifest.webmanifest" />
-  <meta name="theme-color" content="#1e3a8a" />
+  <meta name="theme-color" content="#16a34a" />
   <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
 </head>
-<body class="text-white font-sans overflow-hidden bg-gradient-to-br from-blue-900 to-slate-900">
+<body class="text-white font-sans bg-gradient-to-br from-green-900 to-slate-900 overflow-x-hidden">
 
   <!-- 🌠 Ambient Background -->
   <div id="ambient-bg" class="fixed inset-0 -z-10 bg-cover bg-center blur-sm opacity-40"></div>
 
+  <!-- 📌 Top Navigation Bar -->
+  <nav class="w-full fixed top-0 left-0 z-50 bg-green-800/80 backdrop-blur-md shadow-md border-b border-white/10">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center text-sm">
+      <div class="font-bold text-yellow-300 tracking-wide">🎓 GHS Dashboard</div>
+      <div class="flex gap-4">
+        <a href="pages/login.html?role=admin" class="btn-role">Admin</a>
+        <a href="pages/login.html?role=teacher" class="btn-role">Teacher</a>
+        <a href="pages/display.html" class="btn-role">Display</a>
+      </div>
+    </div>
+  </nav>
+
   <!-- 🏫 Hero Section -->
-  <section class="h-screen flex flex-col items-center justify-center text-center space-y-6 px-6 animate-fade-in">
-    <div class="bg-white/10 backdrop-blur-md p-6 rounded-xl shadow-xl max-w-2xl w-full space-y-4 border border-white/20">
+  <section class="min-h-screen flex flex-col items-center justify-center text-center px-6 space-y-6 pt-24 animate-fade-in">
+    <div class="glass-panel max-w-2xl w-full space-y-6">
       <h1 class="text-4xl font-bold tracking-wide text-yellow-300 animate-slide-up">🎓 GHS Sector No. 2, KTS Haripur</h1>
       <p class="text-blue-200 text-lg italic">Empowering students · Celebrating teachers · Building pride</p>
 
       <!-- 🕒 Current Period -->
       <p id="currentPeriod" class="text-yellow-300 font-semibold text-lg animate-glow">Loading current period…</p>
-
-      <!-- 🔐 Role Buttons -->
-      <div class="flex flex-wrap justify-center gap-4 mt-4">
-        <a href="pages/login.html?role=admin" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded shadow-md flex items-center gap-2">
-          🛠️ Admin Login
-        </a>
-        <a href="pages/login.html?role=teacher" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded shadow-md flex items-center gap-2">
-          👨‍🏫 Teacher Login
-        </a>
-        <a href="pages/display.html" class="bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded shadow-md flex items-center gap-2">
-          🖥️ Launch Display
-        </a>
-      </div>
 
       <!-- 📢 Announcement -->
       <div id="announcement" class="mt-6 text-sm text-yellow-300 animate-pulse italic">
@@ -44,7 +43,7 @@
   </section>
 
   <!-- 📱 Footer -->
-  <footer class="fixed bottom-0 w-full text-center py-4 text-white text-sm animate-fade-in">
+  <footer class="w-full text-center py-6 text-white text-sm animate-fade-in">
     <img src="assets/qr-facebook-ghs.png" class="w-16 h-16 mx-auto mb-2 animate-bounce" />
     <div class="space-y-1">
       <span>📞 0995-619449 · 📧 7085hr@gmail.com</span><br />
