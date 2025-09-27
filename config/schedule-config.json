@@ -1,0 +1,31 @@
+async function fetchSchedule() {
+  const res = await fetch('config/schedule-config.json');
+  return res.json();
+}
+
+function getCurrentMinutes() {
+  const now = new Date();
+  return now.getHours() * 60 + now.getMinutes();
+}
+
+function detectPeriod(schedule) {
+  const now = getCurrentMinutes();
+  const season = (new Date().getMonth() >= 4 && new Date().getMonth() <= 9) ? 'summer' : 'winter';
+  const today = schedule[season];
+
+  for (let period of today) {
+    const start = period.startHour * 60 + period.startMinute;
+    const end = period.endHour * 60 + period.endMinute;
+    if (now >= start && now <= end) return `Current Period: ${period.name}`;
+  }
+
+  return 'No active period';
+}
+
+async function updatePeriodTracker() {
+  const tracker = document.getElementById('periodTracker');
+  const schedule = await fetchSchedule();
+  tracker.textContent = detectPeriod(schedule);
+}
+
+document.addEventListener('DOMContentLoaded', updatePeriodTracker);
