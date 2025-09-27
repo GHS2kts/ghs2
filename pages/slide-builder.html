@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Slide Builder · GHS Dashboard</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <script defer src="../assets/js/slide-builder.js"></script>
+</head>
+<body class="text-white font-sans">
+
+  <!-- 🌠 Ambient Background -->
+  <div id="ambient-bg" class="fixed inset-0 -z-10 bg-cover bg-center"></div>
+
+  <!-- 🎛️ Slide Configurator -->
+  <section class="max-w-4xl mx-auto mt-12 bg-white/10 p-6 rounded-lg shadow-lg space-y-6">
+    <h1 class="text-2xl font-bold text-center">🎞️ Slide Builder</h1>
+
+    <select id="slideType" class="w-full p-2 rounded bg-white text-black">
+      <option value="">Select Slide Type</option>
+      <option value="liveGrid">Live Class Grid</option>
+      <option value="attendanceSnapshot">Attendance Snapshot</option>
+      <option value="studentOfMonth">Student of the Month</option>
+      <option value="galleryPreview">Gallery Preview</option>
+      <option value="videoPreview">Video Preview</option>
+      <option value="analyticsPreview">Analytics Preview</option>
+    </select>
+
+    <input type="text" id="slideTitle" placeholder="Slide Title" class="w-full p-2 rounded bg-white text-black" />
+    <input type="number" id="slideDuration" placeholder="Duration (seconds)" class="w-full p-2 rounded bg-white text-black" />
+    <textarea id="slideNotes" placeholder="Optional notes or layout hints…" class="w-full p-2 rounded bg-white text-black"></textarea>
+
+    <button id="saveSlideBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded">💾 Save Slide</button>
+    <p id="slideStatus" class="text-sm text-center text-green-300"></p>
+  </section>
+
+  <!-- 📋 Existing Slides -->
+  <section class="max-w-4xl mx-auto mt-12 px-6 space-y-4">
+    <h2 class="text-lg font-bold text-center">🗂️ Existing Slides</h2>
+    <div id="slideList" class="space-y-2"></div>
+  </section>
+
+</body>
+</html>
