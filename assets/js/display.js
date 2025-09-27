@@ -1,92 +1,58 @@
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+function setAmbientBackground() {
+  const hour = new Date().getHours();
+  const bg = document.getElementById('ambient-bg');
 
-// 🔄 Slide Rotation
-let current = 0;
-const slides = document.querySelectorAll(".slide");
-function rotateSlides() {
-  slides.forEach(s => s.classList.remove("active"));
-  slides[current].classList.add("active");
-  current = (current + 1) % slides.length;
-}
-setInterval(rotateSlides, 6000);
-rotateSlides();
+  if (hour >= 6 && hour < 12) {
+    bg.style.backgroundImage = "url('../assets/bg-morning.jpg')";
+  } else if (hour >= 12 && hour < 18) {
+    bg.style.backgroundImage = "url('../assets/bg-afternoon.jpg')";
+  } else {
+    bg.style.backgroundImage = "url('../assets/bg-evening.jpg')";
+  }
 
-// 👨‍🏫 Teachers Present Now
-async function loadTeachersPresent() {
-  const now = new Date();
-  const day = now.toLocaleDateString("en-US", { weekday: "long" });
-  const hour = now.getHours();
-  const snap = await getDocs(collection(window.db, "timetables"));
-  const teachers = new Set();
-
-  snap.forEach(docSnap => {
-    const data = docSnap.data();
-    const periods = data.days?.[day] || [];
-    const currentPeriod = periods.find((_, i) => hour === 8 + i);
-    if (currentPeriod?.teacher) teachers.add(currentPeriod.teacher);
-  });
-
-  const container = document.getElementById("slide-teachers");
-  container.innerHTML = `<h2 class="text-2xl font-bold mb-4">👨‍🏫 Teachers Present Now</h2>
-    <p class="text-lg">${[...teachers].join(", ") || "—"}</p>`;
+  bg.style.transition = 'background-image 1s ease-in-out';
 }
 
-// 📊 Attendance Chart
-async function loadAttendanceChart() {
-  const today = new Date().toLocaleDateString("en-CA");
-  const snap = await getDocs(collection(window.db, `attendance/${today}`));
-  const totals = { present: 0, absent: 0, leave: 0, sick: 0, other: 0 };
-  snap.forEach(docSnap => {
-    const data = docSnap.data();
-    for (const key in totals) totals[key] += data[key] || 0;
-  });
+document.addEventListener('DOMContentLoaded', setAmbientBackground);
 
-  const ctx = document.getElementById("attendance-chart").getContext("2d");
-  new Chart(ctx, {
-    type: "pie",
-    data: {
-      labels: Object.keys(totals),
-      datasets: [{
-        data: Object.values(totals),
-        backgroundColor: ["#10b981", "#ef4444", "#f59e0b", "#3b82f6", "#6b7280"]
-      }]
-    },
-    options: {
-      plugins: {
-        legend: { position: "bottom" },
-        title: { display: true, text: "📊 Attendance Summary Today" }
-      }
-    }
-  });
-}
+import { doc, getDoc } from "./firebase.js";
 
-// 🏅 Student of the Month
-async function loadStudentOfMonth() {
-  const snap = await getDoc(doc(window.db, "config", "studentOfMonth"));
+async function loadSlides() {
+  const ref = doc(window.db, 'config', 'slide-config');
+  const snap = await getDoc(ref);
   if (!snap.exists()) return;
-  const data = snap.data();
-  const container = document.getElementById("slide-student");
-  container.innerHTML = `<h2 class="text-2xl font-bold mb-4">🏅 Student of the Month</h2>
-    <img src="${data.photo}" />
-    <h3 class="text-xl mt-2">${data.name}</h3>
-    <p class="mt-1">${data.reason || ""}</p>`;
+
+  const { slides } = snap.data();
+  const activeSlides = slides.filter(s => s.visible);
+  rotateSlides(activeSlides);
 }
 
-// 📰 News Ticker
-async function loadNews() {
-  const snap = await getDoc(doc(window.db, "config", "news"));
-  const list = snap.exists() ? snap.data().items : [];
-  const container = document.getElementById("slide-news");
-  container.innerHTML = `<h2 class="text-2xl font-bold mb-4">📰 News & Announcements</h2>
-    <ul class="space-y-2">${list.map(item => `<li>${item}</li>`).join("")}</ul>`;
+function rotateSlides(slides) {
+  const container = document.getElementById('slideContainer');
+  let index = 0;
+
+  function showSlide() {
+    const slide = slides[index];
+    container.textContent = slide.title;
+    container.classList.add('fade-in');
+    setTimeout(() => container.classList.remove('fade-in'), 1000);
+
+    index = (index + 1) % slides.length;
+    setTimeout(showSlide, slide.duration * 1000);
+  }
+
+  showSlide();
 }
 
-loadTeachersPresent();
-loadAttendanceChart();
-loadStudentOfMonth();
-loadNews();
+document.addEventListener('DOMContentLoaded', loadSlides);
+
+function showSpotlight(name, reason, photo) {
+  const block = document.getElementById('spotlight');
+  block.querySelector('img').src = photo;
+  block.querySelector('p:nth-child(2)').textContent = name;
+  block.querySelector('p:nth-child(3)').textContent = reason;
+  block.classList.remove('hidden');
+}
+
+
+
