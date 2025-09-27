@@ -2,33 +2,35 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GHS Display · Full Screen</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script type="module" src="../assets/js/firebase.js"></script>
-  <style>
-    body { margin: 0; background: #f0f4f8; font-family: 'Segoe UI', sans-serif; }
-    .slide { display: none; padding: 2rem; text-align: center; animation: fade 1s ease-in-out; }
-    .active { display: block; }
-    @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
-    img { max-height: 200px; border-radius: 50%; margin: auto; }
-    canvas { max-width: 600px; margin: auto; }
-  </style>
+  <title>Display · GHS Dashboard</title>
+  <link rel="stylesheet" href="../css/display.css" />
+  <script defer src="../assets/js/display.js"></script>
 </head>
-<body>
-  <div id="slide-container">
-    <div class="slide" id="slide-teachers"></div>
-    <div class="slide" id="slide-attendance"><canvas id="attendance-chart"></canvas></div>
-    <div class="slide" id="slide-student"></div>
-    <div class="slide" id="slide-news"></div>
-    <div class="slide" id="slide-info">
-      <h1 class="text-3xl font-bold">🏫 Government High School Haripur</h1>
-      <p class="mt-2">📍 Near Main Bazaar, Haripur</p>
-      <p>📞 0995-123456 | ✉️ info@ghs.edu.pk</p>
-    </div>
-  </div>
+<body class="text-white font-sans overflow-hidden">
 
-  <script type="module" src="../assets/js/display.js"></script>
+  <!-- 🌠 Ambient Background -->
+  <div id="ambient-bg" class="fixed inset-0 -z-10 bg-cover bg-center"></div>
+
+  <!-- 🖥️ Slide Container -->
+  <main id="slideContainer" class="h-screen flex items-center justify-center text-center text-3xl font-bold px-6">
+    Loading display…
+  </main>
+
+  <!-- 🧑‍🏫 Spotlight Block -->
+  <aside id="spotlight" class="absolute top-4 right-4 bg-white/10 p-4 rounded-lg shadow-md text-sm hidden">
+    <img src="../assets/spotlight/teacher1.jpg" class="w-16 h-16 rounded-full mb-2" />
+    <p class="font-semibold">Ms. Ayesha Khan</p>
+    <p class="italic text-blue-200">Recognized for excellence in Math</p>
+  </aside>
+
+  <!-- 📱 QR Code + Footer -->
+  <footer class="fixed bottom-0 w-full text-center py-2 text-white text-sm animate-fade-in">
+    <img src="../assets/qr-facebook-ghs.png" class="w-16 h-16 mx-auto mb-2 animate-bounce" />
+    <span>GHS Sector No. 2, KTS Haripur · 📞 0995-619449 · 📧 7085hr@gmail.com</span><br />
+    <span class="font-semibold tracking-wide animate-glow hover:underline">
+      Crafted by Khurram Irshad Khan · SST(IT) · 📱 0333-9719300
+    </span>
+  </footer>
+
 </body>
 </html>
