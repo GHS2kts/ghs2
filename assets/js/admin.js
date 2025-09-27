@@ -1,93 +1,114 @@
-function setAmbientBackground() {
-  const hour = new Date().getHours();
-  const bg = document.getElementById('ambient-bg');
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
+import {
+  getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc
+} from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
 
-  if (hour >= 6 && hour < 12) {
-    bg.style.backgroundImage = "url('../assets/bg-morning.jpg')";
-  } else if (hour >= 12 && hour < 18) {
-    bg.style.backgroundImage = "url('../assets/bg-afternoon.jpg')";
-  } else {
-    bg.style.backgroundImage = "url('../assets/bg-evening.jpg')";
-  }
+// 🔥 Firebase Config
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
 
-  bg.style.transition = 'background-image 1s ease-in-out';
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// 🧩 Utility: Render List Item
+function renderItem(text, id, listEl, collectionName) {
+  const li = document.createElement("li");
+  li.textContent = text;
+  li.className = "bg-white/10 p-2 rounded flex justify-between items-center";
+  const delBtn = document.createElement("button");
+  delBtn.textContent = "🗑️";
+  delBtn.className = "ml-4 text-red-400 hover:text-red-200";
+  delBtn.onclick = async () => {
+    await deleteDoc(doc(db, collectionName, id));
+  };
+  li.appendChild(delBtn);
+  listEl.appendChild(li);
 }
 
-document.addEventListener('DOMContentLoaded', setAmbientBackground);
-
-document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const target = btn.dataset.tab;
-    document.querySelectorAll('.tab').forEach(tab => tab.classList.add('hidden'));
-    document.getElementById(`tab-${target}`).classList.remove('hidden');
-  });
-});
-
-import { collection, getDocs } from "./firebase.js";
-
-async function loadCollection(name, containerId) {
-  const container = document.getElementById(containerId);
-  container.innerHTML = `<p class="text-sm italic text-blue-200">Loading ${name}…</p>`;
-
-  const snapshot = await getDocs(collection(window.db, name));
-  let html = `<h3 class="text-lg font-bold mb-2">${name}</h3><ul class="space-y-2">`;
-
+// 👨‍🏫 Teachers
+const teacherForm = document.getElementById("teacherForm");
+const teacherList = document.getElementById("teacherList");
+teacherForm.onsubmit = async (e) => {
+  e.preventDefault();
+  const name = teacherForm.teacherName.value.trim();
+  const subject = teacherForm.teacherSubject.value.trim();
+  const contact = teacherForm.teacherContact.value.trim();
+  if (name && subject && contact) {
+    await addDoc(collection(db, "teachers"), { name, subject, contact });
+    teacherForm.reset();
+  }
+};
+onSnapshot(collection(db, "teachers"), (snapshot) => {
+  teacherList.innerHTML = "";
   snapshot.forEach(doc => {
-    const data = doc.data();
-    html += `<li class="bg-white/10 p-2 rounded">${data.name || doc.id}</li>`;
+    const t = doc.data();
+    renderItem(`${t.name} · ${t.subject} · ${t.contact}`, doc.id, teacherList, "teachers");
   });
-
-  html += `</ul>`;
-  container.innerHTML = html;
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  loadCollection('teachers', 'tab-teachers');
-  loadCollection('classes', 'tab-classes');
-  loadCollection('sections', 'tab-sections');
 });
-import { doc, getDoc, setDoc } from "./firebase.js";
 
-async function loadSlideConfig() {
-  const container = document.getElementById('tab-slides');
-  const ref = doc(window.db, 'config', 'slide-config');
-  const snap = await getDoc(ref);
-
-  if (!snap.exists()) {
-    container.innerHTML = "<p class='text-red-300'>Slide config not found.</p>";
-    return;
+// 🏫 Classes
+const classForm = document.getElementById("classForm");
+const classList = document.getElementById("classList");
+classForm.onsubmit = async (e) => {
+  e.preventDefault();
+  const name = classForm.className.value.trim();
+  const grade = classForm.classGrade.value.trim();
+  if (name && grade) {
+    await addDoc(collection(db, "classes"), { name, grade });
+    classForm.reset();
   }
-
-  const { slides } = snap.data();
-  let html = `<h3 class="text-lg font-bold mb-2">Slide Configuration</h3><form id="slideForm" class="space-y-4">`;
-
-  slides.forEach((slide, index) => {
-    html += `
-      <div class="bg-white/10 p-3 rounded">
-        <label class="block font-semibold">${slide.title}</label>
-        <input type="number" name="duration-${index}" value="${slide.duration}" class="w-20 p-1 rounded text-black" />
-        <label class="ml-4">
-          <input type="checkbox" name="visible-${index}" ${slide.visible ? 'checked' : ''} />
-          Visible
-        </label>
-      </div>
-    `;
+};
+onSnapshot(collection(db, "classes"), (snapshot) => {
+  classList.innerHTML = "";
+  snapshot.forEach(doc => {
+    const c = doc.data();
+    renderItem(`${c.name} · Grade ${c.grade}`, doc.id, classList, "classes");
   });
+});
 
-  html += `<button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">Save Changes</button></form>`;
-  container.innerHTML = html;
-
-  document.getElementById('slideForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const updatedSlides = slides.map((slide, i) => ({
-      ...slide,
-      duration: parseInt(e.target[`duration-${i}`].value),
-      visible: e.target[`visible-${i}`].checked
-    }));
-
-    await setDoc(ref, { slides: updatedSlides });
-    alert("Slide configuration updated.");
+// 📚 Sections
+const sectionForm = document.getElementById("sectionForm");
+const sectionList = document.getElementById("sectionList");
+sectionForm.onsubmit = async (e) => {
+  e.preventDefault();
+  const name = sectionForm.sectionName.value.trim();
+  const linkedClass = sectionForm.sectionClass.value.trim();
+  if (name && linkedClass) {
+    await addDoc(collection(db, "sections"), { name, linkedClass });
+    sectionForm.reset();
+  }
+};
+onSnapshot(collection(db, "sections"), (snapshot) => {
+  sectionList.innerHTML = "";
+  snapshot.forEach(doc => {
+    const s = doc.data();
+    renderItem(`${s.name} · Class ${s.linkedClass}`, doc.id, sectionList, "sections");
   });
-}
+});
 
-document.addEventListener('DOMContentLoaded', loadSlideConfig);
+// 🖥️ Slides
+const slideForm = document.getElementById("slideForm");
+const slideList = document.getElementById("slideList");
+slideForm.onsubmit = async (e) => {
+  e.preventDefault();
+  const title = slideForm.slideTitle.value.trim();
+  const message = slideForm.slideMessage.value.trim();
+  const image = slideForm.slideImage.value.trim();
+  if (title && message && image) {
+    await addDoc(collection(db, "slides"), { title, message, image });
+    slideForm.reset();
+  }
+};
+onSnapshot(collection(db, "slides"), (snapshot) => {
+  slideList.innerHTML = "";
+  snapshot.forEach(doc => {
+    const s = doc.data();
+    renderItem(`${s.title} · ${s.message}`, doc.id, slideList, "slides");
+  });
+});
