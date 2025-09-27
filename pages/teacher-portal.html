@@ -6,41 +6,50 @@
   <link rel="stylesheet" href="../css/styles.css" />
   <script defer src="../assets/js/teacher-portal.js"></script>
 </head>
-<body class="text-white font-sans">
+<body class="text-white font-sans bg-gradient-to-br from-blue-900 to-slate-900 overflow-x-hidden">
 
   <!-- 🌠 Ambient Background -->
-  <div id="ambient-bg" class="fixed inset-0 -z-10 bg-cover bg-center"></div>
+  <div id="ambient-bg" class="fixed inset-0 -z-10 bg-cover bg-center blur-sm opacity-40"></div>
 
-  <!-- 🧑‍🏫 Teacher Header -->
-  <header class="text-center mt-6">
-    <h1 class="text-2xl font-bold">Welcome, Teacher</h1>
-    <p class="text-blue-200 italic">Empower your students · Celebrate your class</p>
-  </header>
+  <!-- 🧑‍🏫 Welcome Block -->
+  <section class="min-h-screen flex flex-col items-center justify-center text-center px-6 space-y-6 animate-fade-in">
+    <div class="bg-white/10 backdrop-blur-md p-6 rounded-xl shadow-xl max-w-2xl w-full space-y-4 border border-white/20">
+      <h1 class="text-3xl font-bold text-yellow-300 animate-slide-up">Welcome, Teacher</h1>
+      <p class="text-blue-200 italic">Empower your students · Celebrate your class</p>
 
-  <!-- 📅 Timetable Viewer -->
-  <section class="max-w-4xl mx-auto mt-8 bg-white/10 p-6 rounded-lg shadow-lg space-y-4">
-    <h2 class="text-xl font-semibold">📆 Your Timetable</h2>
-    <div id="timetableGrid" class="grid grid-cols-5 gap-4 text-center text-sm"></div>
+      <!-- 📆 Timetable + Attendance -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+        <a href="#" class="btn-role">📆 Your Timetable</a>
+        <a href="#" class="btn-role">📝 Mark Attendance</a>
+      </div>
+
+      <!-- 📝 Attendance Form -->
+      <div class="mt-8 text-left space-y-4">
+        <label for="notes" class="block text-sm text-yellow-300 font-semibold">Optional notes…</label>
+        <textarea id="notes" rows="3" class="w-full p-2 rounded bg-white text-black"></textarea>
+        <button class="btn-role w-full">✅ Submit Attendance</button>
+      </div>
+
+      <!-- 🌟 Student Spotlight -->
+      <div class="mt-8 text-left space-y-4">
+        <h2 class="text-lg font-bold text-yellow-300">🌟 Nominate a Student</h2>
+        <input type="text" id="studentName" placeholder="Student Name" class="w-full p-2 rounded bg-white text-black" />
+        <textarea id="achievement" rows="3" placeholder="Achievement / Reason" class="w-full p-2 rounded bg-white text-black"></textarea>
+        <button class="btn-role w-full">🎉 Submit Spotlight</button>
+      </div>
+    </div>
   </section>
 
-  <!-- ✅ Attendance Marking -->
-  <section class="max-w-4xl mx-auto mt-8 bg-white/10 p-6 rounded-lg shadow-lg space-y-4">
-    <h2 class="text-xl font-semibold">📝 Mark Attendance</h2>
-    <select id="classSelect" class="w-full p-2 rounded bg-white text-black"></select>
-    <select id="sectionSelect" class="w-full p-2 rounded bg-white text-black"></select>
-    <textarea id="attendanceNotes" placeholder="Optional notes…" class="w-full p-2 rounded bg-white text-black"></textarea>
-    <button id="markAttendanceBtn" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded">Submit Attendance</button>
-    <p id="attendanceStatus" class="text-sm text-center text-green-300"></p>
-  </section>
-
-  <!-- 🌟 Spotlight Submission -->
-  <section class="max-w-4xl mx-auto mt-8 bg-white/10 p-6 rounded-lg shadow-lg space-y-4">
-    <h2 class="text-xl font-semibold">🌟 Nominate a Student</h2>
-    <input type="text" id="studentName" placeholder="Student Name" class="w-full p-2 rounded bg-white text-black" />
-    <input type="text" id="achievement" placeholder="Achievement / Reason" class="w-full p-2 rounded bg-white text-black" />
-    <button id="submitSpotlightBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded">Submit Spotlight</button>
-    <p id="spotlightStatus" class="text-sm text-center text-green-300"></p>
-  </section>
+  <!-- 📱 Footer -->
+  <footer class="fixed bottom-0 w-full text-center py-4 text-white text-sm animate-fade-in">
+    <img src="../assets/qr-facebook-ghs.png" class="w-16 h-16 mx-auto mb-2 animate-bounce" />
+    <div class="space-y-1">
+      <span>📞 0995-619449 · 📧 7085hr@gmail.com</span><br />
+      <span class="font-semibold tracking-wide animate-glow hover:underline">
+        Crafted by Khurram Irshad Khan · SST(IT) · 📱 0333-9719300
+      </span>
+    </div>
+  </footer>
 
 </body>
 </html>
