@@ -6,20 +6,37 @@
   <link rel="stylesheet" href="../css/styles.css" />
   <script defer src="../assets/js/login.js"></script>
 </head>
-<body class="text-white font-sans bg-gradient-to-br from-blue-900 to-slate-900 flex items-center justify-center h-screen">
+<body class="text-white font-sans bg-gradient-to-br from-green-900 to-slate-900 overflow-x-hidden">
 
-  <div class="bg-white/10 p-8 rounded-lg shadow-lg w-full max-w-md space-y-6 text-center">
-    <h1 class="text-2xl font-bold">🔐 GHS Dashboard Login</h1>
-    <p id="roleLabel" class="text-blue-200 italic">Logging in as: <span class="font-semibold" id="roleName">Unknown</span></p>
+  <!-- 🌠 Ambient Background -->
+  <div id="ambient-bg" class="fixed inset-0 -z-10 bg-cover bg-center blur-sm opacity-40"></div>
 
-    <input type="text" id="username" placeholder="Username" class="w-full p-2 rounded bg-white text-black" />
-    <input type="password" id="password" placeholder="Password" class="w-full p-2 rounded bg-white text-black" />
+  <!-- 🔐 Login Block -->
+  <section class="min-h-screen flex flex-col items-center justify-center text-center px-6 space-y-6 pt-24 animate-fade-in">
+    <div class="glass-panel max-w-md w-full space-y-6">
+      <h1 class="text-3xl font-bold text-yellow-300 animate-slide-up">🔐 Login</h1>
+      <p class="text-blue-200 italic">Access your portal · Role-based login</p>
 
-    <button id="loginBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded">Login</button>
-    <p id="loginStatus" class="text-sm text-yellow-300"></p>
+      <form id="loginForm" class="space-y-4 text-left">
+        <input type="text" id="username" placeholder="Username" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <button type="submit" class="btn-role w-full">🔓 Login</button>
+      </form>
 
-    <a href="../index.html" class="text-xs text-blue-300 hover:underline">← Back to Home</a>
-  </div>
+      <p id="loginError" class="text-red-400 text-sm mt-2 hidden">Invalid credentials or role mismatch.</p>
+    </div>
+  </section>
+
+  <!-- 📱 Footer -->
+  <footer class="w-full text-center py-6 text-white text-sm animate-fade-in">
+    <img src="../assets/qr-facebook-ghs.png" class="w-16 h-16 mx-auto mb-2 animate-bounce" />
+    <div class="space-y-1">
+      <span>GHS Sector No. 2, KTS Haripur · 📞 0995-619449 · 📧 7085hr@gmail.com</span><br />
+      <span class="font-semibold tracking-wide animate-glow hover:underline">
+        Crafted by Khurram Irshad Khan · SST(IT) · 📱 0333-9719300
+      </span>
+    </div>
+  </footer>
 
 </body>
 </html>
